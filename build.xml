@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="CerberusCore" default="reobfuscate">
+<project name="CerberusTech" default="reobfuscate">
     <target name="download-forge" depends="setupvars" unless="forge.downloaded">
         <echo>Downloading Minecraft Forge...</echo>
         <delete dir="${forge.base}" />
@@ -117,7 +117,7 @@
         <echo>Setting up values...</echo>
 
         <property environment="env" />
-        <property name="modname" value="CerberusCore" />
+        <property name="modname" value="CerberusTech" />
 
         <property name="mod.base" location="${basedir}" />
         <property name="mod.src" location="${mod.base}/src_common" />
