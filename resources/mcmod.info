@@ -1,0 +1,16 @@
+[
+{
+  "modid": "CerberusTech",
+  "name": "CerberusTech",
+  "description": "A tech mod, that will add several stuff. NOT FINISHED YET!!!!!",
+  "version": "@VERSION@",
+  "authorList": [
+    "newmangamers",
+    "Aroma1997"
+  ]
+  
+  "dependencies": [
+    "mod_CerberusCore"
+  ]
+}
+]
