@@ -3,6 +3,7 @@ package teamcerberus.cerberustech;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.Configuration;
 import teamcerberus.cerberuscore.config.ConfigurationParser;
+import teamcerberus.cerberustech.block.BlockComputer;
 import teamcerberus.cerberustech.computer.ComputerType;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -44,7 +45,8 @@ public class CerberusTech {
 	@Init
 	public void init(FMLInitializationEvent e) {
 		for (int i = 0; i < ComputerType.values().length; i++) {
-
+			ComputerType type = ComputerType.values()[i];
+			computerBlocks[i] = new BlockComputer(computerIds[i], type);
 		}
 
 	}
