@@ -22,7 +22,7 @@ public enum GeneratorType {
 	public TileEntity createTileEntity() {
 		try {
 			return claSS.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
