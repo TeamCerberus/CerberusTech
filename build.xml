@@ -162,7 +162,7 @@
         <unzip src="${forge.jar.built}" dest="${mcp.bin}" />
         <echo message="Reobfuscating ${modname}." level="info" />
 		<copy todir="${basedir}\forge\mcp\ib" overwrite="false">
-			<fileset dir="${basedir}\jenkinslib\CerberusPower-universal.jar"/>
+			<fileset dir="${basedir}\jenkinslib"/>
 		</copy>
         <exec executable="${python.exe}" dir="${mcp.base}" failonerror="true">
             <arg value="${mcp.base}/runtime/reobfuscate.py" />
