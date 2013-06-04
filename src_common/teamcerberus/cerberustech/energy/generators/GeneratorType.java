@@ -8,9 +8,9 @@ public enum GeneratorType {
 	private String unlocalizedName;
 	private String localizedName;
 	private int output;
-	private Class<? extends TileEntityCoalGenerator> claSS;
+	private Class<? extends TileEntityGeneratorBase> claSS;
 	
-	private GeneratorType(String unlocalizaedName, String localizedName, Class<? extends TileEntityCoalGenerator> claSS, int output) {
+	private GeneratorType(String unlocalizaedName, String localizedName, Class<? extends TileEntityGeneratorBase> claSS, int output) {
 		this.unlocalizedName = unlocalizaedName;
 		this.localizedName = localizedName;
 		this.output = output;
