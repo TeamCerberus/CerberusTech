@@ -163,9 +163,6 @@
         <echo message="Reobfuscating ${modname}." level="info" />
 		<copy todir="${basedir}\forge\mcp\lib" overwrite="false">
 			<fileset dir="${basedir}\jenkinslib"/>
-			<fileset dir="${mcp.jars}\bin">
-				<include name="minecraft.jar"/>
-			</fileset>
 		</copy>
         <exec executable="${python.exe}" dir="${mcp.base}" failonerror="true">
             <arg value="${mcp.base}/runtime/reobfuscate.py" />
