@@ -1,4 +1,4 @@
-package teamcerberus.cerberustech.block;
+package teamcerberus.cerberustech.blocks;
 
 import teamcerberus.cerberustech.computer.ComputerType;
 import net.minecraft.block.BlockContainer;
