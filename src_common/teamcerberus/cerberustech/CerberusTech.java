@@ -2,8 +2,8 @@ package teamcerberus.cerberustech;
 
 import net.minecraftforge.common.Configuration;
 import teamcerberus.cerberuscore.config.ConfigurationParser;
-import teamcerberus.cerberustech.blocks.Blocks;
-import teamcerberus.cerberustech.items.Items;
+import teamcerberus.cerberustech.blocks.CTBlocks;
+import teamcerberus.cerberustech.items.CTItems;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.PreInit;
@@ -25,15 +25,15 @@ public class CerberusTech {
 	public void preinit(FMLPreInitializationEvent e) {
 		Configuration config = new Configuration(e.getSuggestedConfigurationFile());
 		ConfigurationParser.Parse(this, config);
-		Blocks.config(config);
-		Items.config(config);
+		CTBlocks.config(config);
+		CTItems.config(config);
 		config.save();
 	}
 
 	@Init
 	public void init(FMLInitializationEvent e) {
-		Blocks.init();
-		Items.init();
+		CTBlocks.init();
+		CTItems.init();
 	}
 
 }

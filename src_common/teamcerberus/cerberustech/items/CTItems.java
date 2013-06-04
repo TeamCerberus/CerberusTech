@@ -2,7 +2,7 @@ package teamcerberus.cerberustech.items;
 
 import net.minecraftforge.common.Configuration;
 
-public class Items {
+public class CTItems {
 	
 	public static void config(Configuration config) {
 		

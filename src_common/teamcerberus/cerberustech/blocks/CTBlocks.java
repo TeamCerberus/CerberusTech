@@ -4,7 +4,7 @@ import teamcerberus.cerberustech.computer.ComputerType;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.Configuration;
 
-public class Blocks {
+public class CTBlocks {
 	public static Block[]	computerBlocks;
 	public static int[]	computerIds;
 
