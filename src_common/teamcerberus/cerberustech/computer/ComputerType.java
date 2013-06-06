@@ -17,7 +17,11 @@ public enum ComputerType {
 		this.name = name;
 		this.class_ = class_;
 	}
-
+	
+	public Class<? extends TileEntityComputer> getTileEntity(){
+		return class_;
+	}
+	
 	public TileEntityComputer makeTileEntity() {
 		try {
 			return class_.newInstance();
