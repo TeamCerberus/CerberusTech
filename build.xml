@@ -160,10 +160,9 @@
 	
 	<target name="reobfuscate-jenkins" depends="build-jenkins">
         <unzip src="${forge.jar.built}" dest="${mcp.bin}" />
+		<unzip src="${basedir}\jenkinslib\CerberusCore-universal-api.jar" dest="${mcp.bin}" />
+		<unzip src="${basedir}\jenkinslib\CerberusPower-universal.jar" dest="${mcp.bin}" />
         <echo message="Reobfuscating ${modname}." level="info" />
-		<copy todir="${basedir}\forge\mcp\lib" overwrite="false">
-			<fileset dir="${basedir}\jenkinslib"/>
-		</copy>
         <exec executable="${python.exe}" dir="${mcp.base}" failonerror="true">
             <arg value="${mcp.base}/runtime/reobfuscate.py" />
             <arg value="--srgnames" />
