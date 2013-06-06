@@ -2,34 +2,50 @@ package teamcerberus.cerberustech.computer.environments;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.io.Reader;
+import java.net.URL;
 
-import teamcerberus.cerberustech.util.PrefixOutputStream;
+import beanshell.Interpreter;
+import beanshell.classpath.BshClassLoader;
+import beanshell.classpath.ClassManagerImpl;
 
-public class JavaEnvironment implements IEnvironment{
-	private PrintStream outputStream;
-	
+public class JavaEnvironment implements IEnvironment {
+	private PrintStream	outputStream;
+
+	@Override
+	public String getName() {
+		return "java";
+	}
+
 	@Override
 	public void setup(int computerId) {
-		// TODO Auto-generated method stub
-//		outputStream = new PrefixOutputStream(new PrintStream()).setPrefix("Test");
+
 	}
 
 	@Override
 	public PrintStream getPrintStream() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isFileSupported(File file) {
-		// TODO Auto-generated method stub
-		return false;
+		return file.getName().endsWith(getFileType());
 	}
 
 	@Override
 	public String getFileType() {
-		// TODO Auto-generated method stub
-		return null;
+		return ".ctj";
 	}
 
+	@Override
+	public void runFile(Reader file) {
+		try {
+			Interpreter interpreter = new Interpreter();
+			interpreter.setClassLoader(new BshClassLoader(
+					new ClassManagerImpl(), new URL[] {}));
+			interpreter.eval(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -1,0 +1,3 @@
+import S;
+System.out.println("WE ARE RUNNING BEANSHELL!");
+Start.main(new String[]{});

@@ -5,7 +5,7 @@ import teamcerberus.cerberustech.util.CTLog;
 import com.google.common.base.Throwables;
 
 public enum ComputerType {
-	Basic("BasicComputer", "Basic Computer", TileEntityBasicComputer.class);
+	Basic("BasicComputer", "Basic Computer", TileEntityComputer.class);
 	
 	public Class<? extends TileEntityComputer> class_;
 	public String name;

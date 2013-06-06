@@ -3,6 +3,7 @@ package teamcerberus.cerberustech.blocks;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import teamcerberus.cerberustech.computer.ComputerType;
+import teamcerberus.cerberustech.computer.TileEntityComputer;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.Configuration;
 
@@ -27,9 +28,10 @@ public class CTBlocks {
 			ComputerType type = ComputerType.values()[i];
 			computerBlocks[i] = new BlockComputer(computerIds[i], type);
 			GameRegistry.registerBlock(computerBlocks[i]);
-			GameRegistry.registerTileEntity(type.getTileEntity(), type.simpleName+"-tile");
 			LanguageRegistry.addName(computerBlocks[i], type.name);
 		}
+		
+		GameRegistry.registerTileEntity(TileEntityComputer.class, "ComputerTile");
 	}
 
 }

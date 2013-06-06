@@ -72,10 +72,14 @@ public class BlockComputer extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int unused, float unused2, float unused3, float unused4) {
-		TileEntity computer = world.getBlockTileEntity(x, y, z);
-		if (computer == null || player.isSneaking()) 
+		if (player.isSneaking()) 
 			return false;
-		player.openGui(CerberusTech.instance, 1, world, x, y, z);
+		if(world.isRemote)
+			return true;
+		TileEntity computer = world.getBlockTileEntity(x, y, z);
+		if(computer != null){
+			player.openGui(CerberusTech.instance, 1, world, x, y, z);
+		}
 		return true;
 	}
 	
