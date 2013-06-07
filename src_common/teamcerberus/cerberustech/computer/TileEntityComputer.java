@@ -224,4 +224,10 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
 		return true;
 	}
+
+	public void keyboardEvent(OSKeyboardEvents eventFromID,
+			OSKeyboardLetters fromID) {
+		// TODO Auto-generated method stub
+		
+	}
 }

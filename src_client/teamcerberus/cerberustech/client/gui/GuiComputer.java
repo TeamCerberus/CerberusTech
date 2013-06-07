@@ -7,9 +7,13 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import teamcerberus.cerberustech.client.network.ClientPacketHandler;
+import teamcerberus.cerberustech.computer.OSKeyboardEvents;
+import teamcerberus.cerberustech.computer.OSKeyboardLetters;
 import teamcerberus.cerberustech.computer.TileEntityComputer;
 
 public class GuiComputer extends GuiContainer {
@@ -38,12 +42,12 @@ public class GuiComputer extends GuiContainer {
 	
 	@Override
 	protected void actionPerformed(GuiButton par1GuiButton) {
-//		if(par1GuiButton.id == 0)
-//			ClientPacketHandler.sendComputerPowerEvent(computer.xCoord, computer.yCoord, computer.zCoord, computer.worldObj.provider.dimensionId, 0);
-//		else if(par1GuiButton.id == 1)
-//			ClientPacketHandler.sendComputerPowerEvent(computer.xCoord, computer.yCoord, computer.zCoord, computer.worldObj.provider.dimensionId, 1);
-//		else if(par1GuiButton.id == 2)
-//			mc.displayGuiScreen(null);
+		if(par1GuiButton.id == 0)
+			ClientPacketHandler.sendComputerPowerEvent(computer.xCoord, computer.yCoord, computer.zCoord, computer.worldObj.provider.dimensionId, 0);
+		else if(par1GuiButton.id == 1)
+			ClientPacketHandler.sendComputerPowerEvent(computer.xCoord, computer.yCoord, computer.zCoord, computer.worldObj.provider.dimensionId, 1);
+		else if(par1GuiButton.id == 2)
+			mc.displayGuiScreen(null);
 	}
 	
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2,
@@ -83,25 +87,25 @@ public class GuiComputer extends GuiContainer {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		
-//		while (Keyboard.next()){
-//			int key = Keyboard.getEventKey();
-//			if(key != 0){
-//				boolean release = Keyboard.getEventKeyState();
-//				char character = Keyboard.getEventCharacter();
-//				boolean special = !Character.isLetterOrDigit(Character.toLowerCase(character));
-//				String name = special ? Keyboard.getKeyName(key) : Character.toString(character);
-//				if(name.equals("GRAVE") && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) )
-//					name = OSKeyboardLetters.At.letter; //Allows for access to the @ key as it was blocked because of it also being grave!
-////				System.out.println("KEYNAME: "+name);
-//				if(name.equals("GRAVE") || computer == null){
-//					if(!release)
-//						Mouse.setGrabbed(!Mouse.isGrabbed());
-//				}else if(Mouse.isGrabbed())
-//					ClientPacketHandler.sendComputerKeyboardEvent(computer.xCoord, computer.yCoord, computer.zCoord, computer.worldObj.provider.dimensionId, release ? OSKeyboardEvents.KeyPushed : OSKeyboardEvents.KeyReleased, OSKeyboardLetters.getFromLetter(name));
-//				else if(!Mouse.isGrabbed() && name.equals("ESCAPE"))
-//					mc.displayGuiScreen(null);
-//			}
-//		}
+		while (Keyboard.next()){
+			int key = Keyboard.getEventKey();
+			if(key != 0){
+				boolean release = Keyboard.getEventKeyState();
+				char character = Keyboard.getEventCharacter();
+				boolean special = !Character.isLetterOrDigit(Character.toLowerCase(character));
+				String name = special ? Keyboard.getKeyName(key) : Character.toString(character);
+				if(name.equals("GRAVE") && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) )
+					name = OSKeyboardLetters.At.letter; //Allows for access to the @ key as it was blocked because of it also being grave!
+//				System.out.println("KEYNAME: "+name);
+				if(name.equals("GRAVE") || computer == null){
+					if(!release)
+						Mouse.setGrabbed(!Mouse.isGrabbed());
+				}else if(Mouse.isGrabbed())
+					ClientPacketHandler.sendComputerKeyboardEvent(computer.xCoord, computer.yCoord, computer.zCoord, computer.worldObj.provider.dimensionId, release ? OSKeyboardEvents.KeyPushed : OSKeyboardEvents.KeyReleased, OSKeyboardLetters.getFromLetter(name));
+				else if(!Mouse.isGrabbed() && name.equals("ESCAPE"))
+					mc.displayGuiScreen(null);
+			}
+		}
 		
 		((GuiButton)buttonList.get(0)).enabled = !Mouse.isGrabbed();
 		((GuiButton)buttonList.get(1)).enabled = !Mouse.isGrabbed();
