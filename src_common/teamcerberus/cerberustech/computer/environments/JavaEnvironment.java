@@ -34,15 +34,16 @@ public class JavaEnvironment implements IEnvironment {
 
 	@Override
 	public String getFileType() {
-		return ".ctj";
+		return ".java";
 	}
 
 	@Override
-	public void runFile(Reader file) {
+	public void runFile(Reader file, JavaComputerInterface computerInterface) {
 		try {
 			Interpreter interpreter = new Interpreter();
 			interpreter.setClassLoader(new BshClassLoader(
 					new ClassManagerImpl(), new URL[] {}));
+			interpreter.set("computer", computerInterface);
 			interpreter.eval(file);
 		} catch (Exception e) {
 			e.printStackTrace();

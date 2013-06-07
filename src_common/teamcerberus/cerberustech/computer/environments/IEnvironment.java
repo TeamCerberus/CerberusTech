@@ -15,5 +15,5 @@ public interface IEnvironment {
 	
 	public String getFileType();
 	
-	public void runFile(Reader file);
+	public void runFile(Reader file, JavaComputerInterface computerInterface);
 }

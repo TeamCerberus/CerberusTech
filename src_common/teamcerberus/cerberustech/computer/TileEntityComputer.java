@@ -17,11 +17,13 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 		IComputerTE {
 	public int[][]		clientPixels;
 	private Computer	computer;
+	private int			id;
 	private Thread		thread;
 	public boolean		setup;
 
 	public TileEntityComputer() {
 		setup = false;
+		id = -1;
 	}
 
 	@Override
@@ -38,13 +40,15 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 			} else {
 				startComputer();
 			}
-			
+
 		}
 	}
 
 	@Override
 	public void startComputer() {
-		computer = new Computer(ComputerIdGenerator.getNextID(), this);
+		if(id == -1)
+			id = ComputerIdGenerator.getNextID();
+		computer = new Computer(id, this);
 		thread = new Thread(computer);
 		thread.start();
 	}
@@ -61,6 +65,18 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	public void blockDestroy() {
 		stopComputer();
 	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
+		super.readFromNBT(par1nbtTagCompound);
+		id = par1nbtTagCompound.getInteger("computer-id");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
+		super.writeToNBT(par1nbtTagCompound);
+		par1nbtTagCompound.setInteger("computer-id", id);
+	}
 
 	@Override
 	public Packet getDescriptionPacket() {
@@ -76,7 +92,7 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
 		NBTTagCompound com = pkt.customParam1;
-		
+
 		clientPixels = convertFromOneDim(
 				convertFromByteArray(com.getByteArray("pixels")), 200, 200);
 		setup = true;
