@@ -167,6 +167,11 @@
             <arg value="${mcp.base}/runtime/reobfuscate.py" />
             <arg value="--srgnames" />
         </exec>
+		<echo message="Cleaning libs" />
+		<delete>
+			<fileset dir="${mcp.reobf}/teamcerberus/cerberuscore"/>
+			<fileset dir="${mcp.reobf}/teamcerberus/cerberustech"/>
+		</delete>
         <echo message="Building a release jar." />
         <jar destfile="${mod.jar.release}">
             <fileset dir="${mcp.reobf}" />
