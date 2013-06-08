@@ -168,9 +168,9 @@
             <arg value="--srgnames" />
         </exec>
 		<echo message="Cleaning libs" />
-		<delete>
-			<fileset dir="${mcp.reobf}/teamcerberus/cerberuscore"/>
-			<fileset dir="${mcp.reobf}/teamcerberus/cerberustech"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${mcp.reobf}/teamcerberus/cerberuscore" includes="**/*"/>
+			<fileset dir="${mcp.reobf}/teamcerberus/cerberustech" includes="**/*"/>
 		</delete>
         <echo message="Building a release jar." />
         <jar destfile="${mod.jar.release}">
