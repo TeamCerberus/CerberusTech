@@ -167,25 +167,22 @@
             <arg value="${mcp.base}/runtime/reobfuscate.py" />
             <arg value="--srgnames" />
         </exec>
-		<echo message="Cleaning libs" />
-		<delete includeemptydirs="true">
-			<fileset dir="${mcp.reobf}/teamcerberus/cerberuscore" includes="**/*"/>
-			<fileset dir="${mcp.reobf}/teamcerberus/cerberustech" includes="**/*"/>
-		</delete>
         <echo message="Building a release jar." />
         <jar destfile="${mod.jar.release}">
-            <fileset dir="${mcp.reobf}" />
+            <fileset dir="${mcp.reobf}" includes="teamcerberus/cerberustech/*.*"/>
+			<fileset dir="${mcp.reobf}" includes="org/*.*"/>
+			<fileset dir="${mcp.reobf}" includes="beanshell/*.*"/>
             
 			<fileset dir="${mod.src.common}">
                 <exclude name="mcmod.info"/>
                 <exclude name="**/*.java"/>
                 <exclude name="com/" />
             </fileset>
-			<!--<fileset dir="${mod.src.client}">
+			<fileset dir="${mod.src.client}">
                 <exclude name="mcmod.info"/>
                 <exclude name="**/*.java"/>
                 <exclude name="com/" />
-            </fileset>-->
+            </fileset>
             <fileset dir="${mod.base}/resources">
                 <exclude name="mcmod.info"/>
                 <exclude name="**/*.java"/>
