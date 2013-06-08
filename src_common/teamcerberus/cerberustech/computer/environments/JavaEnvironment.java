@@ -10,7 +10,7 @@ import beanshell.classpath.BshClassLoader;
 import beanshell.classpath.ClassManagerImpl;
 
 public class JavaEnvironment implements IEnvironment {
-	private PrintStream	outputStream;
+//	private PrintStream	outputStream;
 
 	@Override
 	public String getName() {

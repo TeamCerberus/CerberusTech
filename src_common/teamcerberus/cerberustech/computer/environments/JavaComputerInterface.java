@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.Reader;
 
 import teamcerberus.cerberustech.computer.Computer;
+import teamcerberus.cerberustech.computer.ComputerEventListener;
 
 public class JavaComputerInterface {
 	private Computer	computer;
@@ -43,5 +44,13 @@ public class JavaComputerInterface {
 		else
 			throw new FileNotFoundException("Computer pos not found!");
 		return reader;
+	}
+	
+	public void addEventListener(ComputerEventListener listener){
+		computer.addEventListener(listener);
+	}
+	
+	public void removeEventListener(ComputerEventListener listener){
+		computer.removeEventListener(listener);
 	}
 }

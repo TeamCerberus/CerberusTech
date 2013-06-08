@@ -8,6 +8,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import teamcerberus.cerberustech.CerberusTech;
 import teamcerberus.cerberustech.computer.OSKeyboardEvents;
 import teamcerberus.cerberustech.computer.OSKeyboardLetters;
 import teamcerberus.cerberustech.computer.TileEntityComputer;
@@ -25,7 +26,7 @@ public class ServerPacketHandler implements IPacketHandler {
 	public static void sendPacket(Packet250CustomPayload packet, ByteArrayOutputStream outbytes){
 		byte[] bytes = outbytes.toByteArray();
 		outbytes = null; //Flags as garbage, this will auto be cleaned out of memory;
-		packet.channel = "Javacraft";
+		packet.channel = CerberusTech.network;
 		packet.data = bytes;
 		packet.length = packet.data.length;
 		PacketDispatcher.sendPacketToAllPlayers(packet);

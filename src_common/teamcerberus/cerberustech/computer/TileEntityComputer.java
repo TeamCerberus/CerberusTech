@@ -66,6 +66,11 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 		stopComputer();
 	}
 	
+	public void keyboardEvent(OSKeyboardEvents eventFromID,
+			OSKeyboardLetters fromID) {
+		computer.keyboardEvent(eventFromID, fromID);
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
 		super.readFromNBT(par1nbtTagCompound);
@@ -223,11 +228,5 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	@Override
 	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
 		return true;
-	}
-
-	public void keyboardEvent(OSKeyboardEvents eventFromID,
-			OSKeyboardLetters fromID) {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.world.World;
+import teamcerberus.cerberustech.CerberusTech;
 import teamcerberus.cerberustech.computer.OSKeyboardEvents;
 import teamcerberus.cerberustech.computer.OSKeyboardLetters;
 import teamcerberus.cerberustech.network.Channels;
@@ -24,7 +25,7 @@ public class ClientPacketHandler implements IPacketHandler {
 
 	public static void sendPacket(Packet250CustomPayload packet, ByteArrayOutputStream outbytes) {
 		byte[] bytes = outbytes.toByteArray();
-		packet.channel = "Javacraft";
+		packet.channel = CerberusTech.network;
 		packet.data = bytes;
 		packet.length = packet.data.length;
 		PacketDispatcher.sendPacketToServer(packet);

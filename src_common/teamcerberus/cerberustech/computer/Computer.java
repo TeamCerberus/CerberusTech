@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import net.minecraft.client.Minecraft;
 import teamcerberus.cerberustech.CerberusTech;
@@ -17,20 +18,22 @@ import teamcerberus.cerberustech.computer.environments.JavaComputerInterface;
 import teamcerberus.cerberustech.computer.environments.JavaEnvironment;
 
 public class Computer implements Runnable {
-	private HashMap<String, IEnvironment>	environments;
-	private File							computerFolder;
-	private File							cmosFolder;
-	private File							hhdFolder;
-	private File							romFolder;
-	private int								computerId;
-	private int[][]							monitorPixels;
-	private IComputerTE						te;
-	private JavaComputerInterface			javaComputerInterface;
+	private HashMap<String, IEnvironment>		environments;
+	private File								computerFolder;
+	private File								cmosFolder;
+	private File								hhdFolder;
+	private File								romFolder;
+	private int									computerId;
+	private int[][]								monitorPixels;
+	private IComputerTE							te;
+	private JavaComputerInterface				javaComputerInterface;
+	private LinkedList<ComputerEventListener>	eventListeners;
 
 	public Computer(int computerId, IComputerTE te) {
 		this.computerId = computerId;
 		this.te = te;
 		javaComputerInterface = new JavaComputerInterface(this);
+		eventListeners = new LinkedList<ComputerEventListener>();
 		clearMonitor();
 		updateSaveFolder();
 		setupEnvironments();
@@ -39,8 +42,8 @@ public class Computer implements Runnable {
 	@Override
 	public void run() {
 		try {
-			getEnvironment("java").runFile(
-					getFileFromROM("bios.java"), javaComputerInterface);
+			getEnvironment("java").runFile(getFileFromROM("bios.java"),
+					javaComputerInterface);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,19 +57,19 @@ public class Computer implements Runnable {
 				fileStream, "UTF-8"));
 		return fileReader;
 	}
-	
-	public Reader getFileFromCMOS(String file) throws FileNotFoundException{
+
+	public Reader getFileFromCMOS(String file) throws FileNotFoundException {
 		return new FileReader(new File(cmosFolder, file));
 	}
-	
-	public Reader getFileFromHHD(String file) throws FileNotFoundException{
+
+	public Reader getFileFromHHD(String file) throws FileNotFoundException {
 		return new FileReader(new File(hhdFolder, file));
 	}
-	
-	public Reader getFileFromROM(String file) throws FileNotFoundException{
+
+	public Reader getFileFromROM(String file) throws FileNotFoundException {
 		return new FileReader(new File(romFolder, file));
 	}
-	
+
 	public void clearMonitor() {
 		monitorPixels = new int[200][200];
 	}
@@ -92,7 +95,7 @@ public class Computer implements Runnable {
 		environments = new HashMap<String, IEnvironment>();
 		addEnvironment(new JavaEnvironment());
 	}
-	
+
 	public IEnvironment getEnvironment(String enviroment) {
 		return environments.get(enviroment);
 	}
@@ -103,5 +106,20 @@ public class Computer implements Runnable {
 
 	public int[][] getMonitorPixels() {
 		return monitorPixels;
+	}
+
+	public void keyboardEvent(OSKeyboardEvents eventFromID,
+			OSKeyboardLetters fromID) {
+		for(ComputerEventListener list : eventListeners){
+			list.keyboardEvent(eventFromID, fromID);
+		}
+	}
+	
+	public void addEventListener(ComputerEventListener listener){
+		eventListeners.add(listener);
+	}
+	
+	public void removeEventListener(ComputerEventListener listener){
+		eventListeners.remove(listener);
 	}
 }
