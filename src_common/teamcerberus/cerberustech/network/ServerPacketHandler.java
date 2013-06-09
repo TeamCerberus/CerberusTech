@@ -34,7 +34,7 @@ public class ServerPacketHandler implements IPacketHandler {
 	
 	public static void sendPacketToPlayer(String user, Packet250CustomPayload packet, ByteArrayOutputStream outbytes){
 		byte[] bytes = outbytes.toByteArray();
-		packet.channel = "Javacraft";
+		packet.channel = CerberusTech.network;
 		packet.data = bytes;
 		packet.length = packet.data.length;
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();

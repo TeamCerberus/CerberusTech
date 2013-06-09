@@ -5,13 +5,15 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.net.URL;
 
+import beanshell.EvalError;
 import beanshell.Interpreter;
 import beanshell.classpath.BshClassLoader;
 import beanshell.classpath.ClassManagerImpl;
 
 public class JavaEnvironment implements IEnvironment {
 //	private PrintStream	outputStream;
-
+	private Interpreter interpreter;
+	
 	@Override
 	public String getName() {
 		return "java";
@@ -40,12 +42,20 @@ public class JavaEnvironment implements IEnvironment {
 	@Override
 	public void runFile(Reader file, JavaComputerInterface computerInterface) {
 		try {
-			Interpreter interpreter = new Interpreter();
+			interpreter = new Interpreter();
 			interpreter.setClassLoader(new BshClassLoader(
 					new ClassManagerImpl(), new URL[] {}));
 			interpreter.set("computer", computerInterface);
 			interpreter.eval(file);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setVariable(String variable, Object instance){
+		try {
+			interpreter.set(variable, instance);
+		} catch (EvalError e) {
 			e.printStackTrace();
 		}
 	}

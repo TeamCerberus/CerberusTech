@@ -19,10 +19,11 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	private Computer	computer;
 	private int			id;
 	private Thread		thread;
-	public boolean		setup;
+	public boolean		running;
 
 	public TileEntityComputer() {
-		setup = false;
+		clientPixels = new int[200][200];
+		running = false;
 		id = -1;
 	}
 
@@ -32,51 +33,47 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	}
 
 	@Override
-	public void updateEntity() {
-		if (!setup) {
-			setup = true;
-			if (worldObj.isRemote) {
-				clientPixels = new int[200][200];
-			} else {
-				startComputer();
-			}
-
-		}
-	}
-
-	@Override
 	public void startComputer() {
-		if(id == -1)
-			id = ComputerIdGenerator.getNextID();
-		computer = new Computer(id, this);
-		thread = new Thread(computer);
-		thread.start();
+		if(running)
+			return;
+		else{
+			if (id == -1) id = ComputerIdGenerator.getNextID();
+			running = true;
+			computer = new Computer(id, this);
+			thread = new Thread(computer);
+			thread.start();
+		}
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void stopComputer() {
-		try {
-			thread.interrupt();
-			thread.stop();
-		} catch (Exception e) {}
+		if(!running)
+			return;
+		else{
+			try {
+				running = false;
+				thread.interrupt();
+				thread.stop();
+			} catch (Exception e) {}
+		}
 	}
 
 	public void blockDestroy() {
 		stopComputer();
 	}
-	
+
 	public void keyboardEvent(OSKeyboardEvents eventFromID,
 			OSKeyboardLetters fromID) {
 		computer.keyboardEvent(eventFromID, fromID);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
 		super.readFromNBT(par1nbtTagCompound);
 		id = par1nbtTagCompound.getInteger("computer-id");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
 		super.writeToNBT(par1nbtTagCompound);
@@ -85,13 +82,12 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 
 	@Override
 	public Packet getDescriptionPacket() {
-		if (setup) {
-			NBTTagCompound com = new NBTTagCompound();
-			com.setByteArray("pixels",
-					convertToByteArray(convertToOneDim(computer
-							.getMonitorPixels())));
-			return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, com);
-		} else return null;
+		NBTTagCompound com = new NBTTagCompound();
+		com.setByteArray(
+				"pixels",
+				convertToByteArray(convertToOneDim(running ? computer
+						.getMonitorPixels() : clientPixels)));
+		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, com);
 	}
 
 	@Override
@@ -100,7 +96,6 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 
 		clientPixels = convertFromOneDim(
 				convertFromByteArray(com.getByteArray("pixels")), 200, 200);
-		setup = true;
 	}
 
 	private static int[] convertToOneDim(int ints[][]) {

@@ -42,11 +42,12 @@ public class Computer implements Runnable {
 	@Override
 	public void run() {
 		try {
-			getEnvironment("java").runFile(getFileFromROM("bios.java"),
+			getEnvironment("java").runFile(getFileFromROM("bios.cjava"),
 					javaComputerInterface);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		monitorPixels = new int[200][200];
 		syncMonitor();
 	}
 
@@ -86,9 +87,7 @@ public class Computer implements Runnable {
 		hhdFolder = new File(computerFolder, "hhd");
 		romFolder = new File(computerFolder, "rom");
 		computerFolder.mkdirs();
-		cmosFolder.mkdirs();
-		hhdFolder.mkdirs();
-		romFolder.mkdirs();
+		ComputerDefault.initComputerFolder(computerFolder);
 	}
 
 	public void setupEnvironments() {
@@ -121,5 +120,9 @@ public class Computer implements Runnable {
 	
 	public void removeEventListener(ComputerEventListener listener){
 		eventListeners.remove(listener);
+	}
+
+	public void setPixel(int x, int y, int color) {
+		monitorPixels[x][y] = color;
 	}
 }
