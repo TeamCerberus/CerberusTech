@@ -2,13 +2,12 @@ package teamcerberus.cerberustech.computer.environments;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;
-import java.util.HashMap;
 
 import teamcerberus.cerberustech.computer.Computer;
 import teamcerberus.cerberustech.computer.ComputerEventListener;
 
 public class JavaComputerInterface {
-	private Computer						computer;
+	private Computer	computer;
 
 	public JavaComputerInterface(Computer computer) {
 		this.computer = computer;
@@ -22,24 +21,25 @@ public class JavaComputerInterface {
 		computer.syncMonitor();
 	}
 
-	public void runFile(String environment, String file)
-			throws FileNotFoundException {
-		runFile(environment, "hhd", file);
+	public void runFile(String file) throws FileNotFoundException {
+		runFile("hhd", file);
+	}
+
+	public void runFile(String pos, String file) throws FileNotFoundException {
+		computer.runFile(pos, file);
 	}
 
 	public void runFile(String environment, String pos, String file)
 			throws FileNotFoundException {
-		computer.getEnvironment(environment).runFile(
-				getFile(pos, file), this);
+		computer.getEnvironment(environment).runFile(pos+"/"+file, getFile(pos, file),
+				computer);
 	}
 
-	public Reader getFile(String file)
-			throws FileNotFoundException {
+	public Reader getFile(String file) throws FileNotFoundException {
 		return getFile("hhd", file);
 	}
 
-	public Reader getFile(String pos, String file)
-			throws FileNotFoundException {
+	public Reader getFile(String pos, String file) throws FileNotFoundException {
 		Reader reader = null;
 		if (pos.toLowerCase().equals("rom")) reader = computer
 				.getFileFromROM(file);
@@ -58,8 +58,9 @@ public class JavaComputerInterface {
 	public void removeEventListener(ComputerEventListener listener) {
 		computer.removeEventListener(listener);
 	}
-	
-	public void mountStaticJavaVariable(String name, Object instance){
-		((JavaEnvironment)computer.getEnvironment("java")).setVariable(name, instance);
+
+	public void mountStaticJavaVariable(String name, Object instance) {
+		((JavaEnvironment) computer.getEnvironment("java")).setVariable(name,
+				instance);
 	}
 }

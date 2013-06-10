@@ -10,12 +10,13 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
 import teamcerberus.cerberustech.CerberusTech;
 import teamcerberus.cerberustech.computer.environments.IEnvironment;
-import teamcerberus.cerberustech.computer.environments.JavaComputerInterface;
 import teamcerberus.cerberustech.computer.environments.JavaEnvironment;
+import teamcerberus.cerberustech.computer.environments.LuaEnvironment;
 
 public class Computer implements Runnable {
 	private HashMap<String, IEnvironment>		environments;
@@ -26,29 +27,30 @@ public class Computer implements Runnable {
 	private int									computerId;
 	private int[][]								monitorPixels;
 	private IComputerTE							te;
-	private JavaComputerInterface				javaComputerInterface;
 	private LinkedList<ComputerEventListener>	eventListeners;
 
 	public Computer(int computerId, IComputerTE te) {
 		this.computerId = computerId;
 		this.te = te;
-		javaComputerInterface = new JavaComputerInterface(this);
 		eventListeners = new LinkedList<ComputerEventListener>();
 		clearMonitor();
 		updateSaveFolder();
-		setupEnvironments();
 	}
 
 	@Override
 	public void run() {
 		try {
-			getEnvironment("java").runFile(getFileFromROM("bios.cjava"),
-					javaComputerInterface);
+			setupEnvironments();
+			runFile("rom", "bios.cjava");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		monitorPixels = new int[200][200];
 		syncMonitor();
+	}
+
+	public void runFile(String pos, String file) throws FileNotFoundException{
+		getEnvironmentForFile(file).runFile(pos+"/"+file, getFileFromPos(pos, file), this);
 	}
 
 	public Reader getFileFromJar(String file)
@@ -69,6 +71,16 @@ public class Computer implements Runnable {
 
 	public Reader getFileFromROM(String file) throws FileNotFoundException {
 		return new FileReader(new File(romFolder, file));
+	}
+
+	public Reader getFileFromPos(String pos, String file)
+			throws FileNotFoundException {
+		Reader reader = null;
+		if (pos.toLowerCase().equals("rom")) reader = getFileFromROM(file);
+		else if (pos.toLowerCase().equals("cmos")) reader = getFileFromCMOS(file);
+		else if (pos.toLowerCase().equals("hhd")) reader = getFileFromHHD(file);
+		else throw new FileNotFoundException("Computer pos not found!");
+		return reader;
 	}
 
 	public void clearMonitor() {
@@ -93,6 +105,11 @@ public class Computer implements Runnable {
 	public void setupEnvironments() {
 		environments = new HashMap<String, IEnvironment>();
 		addEnvironment(new JavaEnvironment());
+		addEnvironment(new LuaEnvironment());
+
+		for (Entry<String, IEnvironment> entry : environments.entrySet()) {
+			entry.getValue().setup(computerId, this);
+		}
 	}
 
 	public IEnvironment getEnvironment(String enviroment) {
@@ -103,22 +120,33 @@ public class Computer implements Runnable {
 		environments.put(environment.getName(), environment);
 	}
 
+	public IEnvironment getEnvironmentForFile(String file) {
+		String ext = "";
+		int pos = file.lastIndexOf(".");
+		if (pos != -1) ext = file.substring(pos, file.length());
+		for (Entry<String, IEnvironment> entry : environments.entrySet()) {
+			if (entry.getValue().getFileType().equals(ext)) return entry
+					.getValue();
+		}
+		return null;
+	}
+
 	public int[][] getMonitorPixels() {
 		return monitorPixels;
 	}
 
 	public void keyboardEvent(OSKeyboardEvents eventFromID,
 			OSKeyboardLetters fromID) {
-		for(ComputerEventListener list : eventListeners){
+		for (ComputerEventListener list : eventListeners) {
 			list.keyboardEvent(eventFromID, fromID);
 		}
 	}
-	
-	public void addEventListener(ComputerEventListener listener){
+
+	public void addEventListener(ComputerEventListener listener) {
 		eventListeners.add(listener);
 	}
-	
-	public void removeEventListener(ComputerEventListener listener){
+
+	public void removeEventListener(ComputerEventListener listener) {
 		eventListeners.remove(listener);
 	}
 

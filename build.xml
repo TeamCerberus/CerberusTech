@@ -45,6 +45,7 @@
         <copy todir="${temp.src}" failonerror="false">
 			<fileset dir="${mod.src.common}" />
 			<fileset dir="${mod.src.client}" />
+			<fileset dir="${mod.src.lib}" />
         </copy>
         <replace dir="${temp.src}" token="@VERSION@" value="${version}" />
         <replace dir="${temp.src}" token="@BUILD_NUMBER@" value="${build_number.build_number}" />
@@ -60,6 +61,7 @@
         <property name="mod.base" location="${basedir}" />
         <property name="mod.src.common" location="${mod.base}/src_common" />
 		<property name="mod.src.client" location="${mod.base}/src_client" />
+		<property name="mod.src.lib" location="${mod.base}/src_lib" />
         <property name="mod.bin" location="${mod.base}/bin" />
 
         <property name="temp.dir" location= "${mod.base}/tmp" />
@@ -179,6 +181,11 @@
                 <exclude name="com/" />
             </fileset>
 			<fileset dir="${mod.src.client}">
+                <exclude name="mcmod.info"/>
+                <exclude name="**/*.java"/>
+                <exclude name="com/" />
+            </fileset>
+			<fileset dir="${mod.src.lib}">
                 <exclude name="mcmod.info"/>
                 <exclude name="**/*.java"/>
                 <exclude name="com/" />

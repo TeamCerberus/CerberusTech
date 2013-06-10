@@ -4,16 +4,16 @@ import java.io.File;
 import java.io.PrintStream;
 import java.io.Reader;
 
+import teamcerberus.cerberustech.computer.Computer;
+
 public interface IEnvironment {
 	public String getName();
 	
-	public void setup(int computerId);
+	public void setup(int computerId, Computer computer);
 	
 	public PrintStream getPrintStream();
 	
-	public boolean isFileSupported(File file);
-	
 	public String getFileType();
 	
-	public void runFile(Reader file, JavaComputerInterface computerInterface);
+	public void runFile(String path, Reader file, Computer computer);
 }

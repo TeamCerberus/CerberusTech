@@ -5,14 +5,16 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.net.URL;
 
+import teamcerberus.cerberustech.computer.Computer;
+
+import beanshell.BshClassLoader;
+import beanshell.ClassManagerImpl;
 import beanshell.EvalError;
 import beanshell.Interpreter;
-import beanshell.classpath.BshClassLoader;
-import beanshell.classpath.ClassManagerImpl;
 
 public class JavaEnvironment implements IEnvironment {
-//	private PrintStream	outputStream;
 	private Interpreter interpreter;
+	private JavaComputerInterface computerInterface;
 	
 	@Override
 	public String getName() {
@@ -20,32 +22,32 @@ public class JavaEnvironment implements IEnvironment {
 	}
 
 	@Override
-	public void setup(int computerId) {
-
+	public void setup(int computerId, Computer computer) {
+		try{
+			computerInterface = new JavaComputerInterface(computer);
+			interpreter = new Interpreter();
+			interpreter.setClassLoader(new BshClassLoader(
+					new ClassManagerImpl(), new URL[] {}));
+			interpreter.set("computer", computerInterface);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
 	public PrintStream getPrintStream() {
 		return null;
 	}
-
-	@Override
-	public boolean isFileSupported(File file) {
-		return file.getName().endsWith(getFileType());
-	}
-
+	
 	@Override
 	public String getFileType() {
-		return ".java";
+		return ".cjava";
 	}
 
 	@Override
-	public void runFile(Reader file, JavaComputerInterface computerInterface) {
+	public void runFile(String path, Reader file, Computer computer) {
 		try {
-			interpreter = new Interpreter();
-			interpreter.setClassLoader(new BshClassLoader(
-					new ClassManagerImpl(), new URL[] {}));
-			interpreter.set("computer", computerInterface);
 			interpreter.eval(file);
 		} catch (Exception e) {
 			e.printStackTrace();
