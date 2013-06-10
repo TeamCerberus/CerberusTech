@@ -128,7 +128,7 @@ public abstract class ReferenceType extends Type {
          * array of components of type SC, then:
          */
         if (this instanceof ArrayType) {
-            /* If T is a class type, then T must be Object (§2.4.7).
+            /* If T is a class type, then T must be Object (2.4.7).
              */
             if ((T instanceof ObjectType) && (((ObjectType) T).referencesClassExact())) {
                 if (T.equals(Type.OBJECT)) {
