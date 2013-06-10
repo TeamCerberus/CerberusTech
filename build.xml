@@ -171,10 +171,14 @@
         </exec>
         <echo message="Building a release jar." />
         <jar destfile="${mod.jar.release}">
-            <fileset dir="${mcp.reobf}" includes="teamcerberus/cerberustech/**.*">
-			<fileset dir="${mcp.reobf}" includes="org/**.*"/>
-			<fileset dir="${mcp.reobf}" includes="beanshell/**.*"/>
-			<fileset dir="${mcp.reobf}" includes="luaj/**.*"/>
+            <fileset dir="${mcp.reobf}" includes="teamcerberus/cerberustech/*">
+			<fileset dir="${mcp.reobf}" includes="teamcerberus/cerberustech/*/**">
+			<fileset dir="${mcp.reobf}" includes="org/*"/>
+			<fileset dir="${mcp.reobf}" includes="org/*/**"/>
+			<fileset dir="${mcp.reobf}" includes="beanshell/*"/>
+			<fileset dir="${mcp.reobf}" includes="beanshell/*/**"/>
+			<fileset dir="${mcp.reobf}" includes="luaj/*"/>
+			<fileset dir="${mcp.reobf}" includes="luaj/*/**"/>
             
 			<fileset dir="${mod.src.common}">
                 <exclude name="mcmod.info"/>
