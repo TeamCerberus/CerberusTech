@@ -22,7 +22,6 @@
 package luaj;
 
 
-import teamcerberus.cerberustech.computer.Computer;
 
 /** Abstract base class for Java function implementations that take two arguments and 
  * return one value. 

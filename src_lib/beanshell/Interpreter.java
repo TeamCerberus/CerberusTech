@@ -34,8 +34,6 @@
 package beanshell;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -45,7 +43,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.io.Serializable;
@@ -1193,21 +1190,4 @@ public class Interpreter implements Runnable, ConsoleInterface, Serializable {
 			throw new IllegalStateException(utilEvalError);
 		}
 	}
-
-	public Interpreter deepClone() {
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(this);
-			ByteArrayInputStream bais = new ByteArrayInputStream(
-					baos.toByteArray());
-			ObjectInputStream ois = new ObjectInputStream(bais);
-			return (Interpreter) ois.readObject();
-		} catch (IOException e) {
-			return null;
-		} catch (ClassNotFoundException e) {
-			return null;
-		}
-	}
-
 }

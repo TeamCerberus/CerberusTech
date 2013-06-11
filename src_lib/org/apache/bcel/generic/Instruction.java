@@ -20,6 +20,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Locale;
+
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.util.ByteSequence;

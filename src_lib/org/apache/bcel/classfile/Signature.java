@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
 import org.apache.bcel.Constants;
 
 /**

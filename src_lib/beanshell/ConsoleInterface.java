@@ -34,7 +34,8 @@
 
 package beanshell;
 
-import java.io.*;
+import java.io.PrintStream;
+import java.io.Reader;
 
 /**
 	The capabilities of a minimal console for BeanShell.

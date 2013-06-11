@@ -34,19 +34,17 @@
 
 package	beanshell;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
-
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.IOException;
-
-import java.lang.reflect.Method;
+import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
     A namespace	in which methods, variables, and imports (class names) live.  

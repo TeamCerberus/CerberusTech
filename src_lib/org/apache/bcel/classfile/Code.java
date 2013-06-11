@@ -19,6 +19,7 @@ package org.apache.bcel.classfile;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
 import org.apache.bcel.Constants;
 
 /** 

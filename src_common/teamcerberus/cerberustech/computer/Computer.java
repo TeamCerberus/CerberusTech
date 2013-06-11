@@ -49,8 +49,8 @@ public class Computer implements Runnable {
 		syncMonitor();
 	}
 
-	public void runFile(String pos, String file) throws FileNotFoundException{
-		getEnvironmentForFile(file).runFile(pos+"/"+file, getFileFromPos(pos, file), this);
+	public void runFile(String pos, String file) throws Exception{
+		getEnvironmentForFile(file).getMasterInterpreter().executeFile(getFileFromPos(pos, file));
 	}
 
 	public Reader getFileFromJar(String file)

@@ -33,9 +33,8 @@
 
 package beanshell;
 
-import java.net.*;
-import java.util.*;
-import java.io.*;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 
 /**

@@ -19,6 +19,7 @@ package org.apache.bcel.util;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import org.apache.bcel.classfile.Attribute;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.CodeException;

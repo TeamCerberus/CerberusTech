@@ -21,6 +21,8 @@
 ******************************************************************************/
 package luaj;
 
+import luaj.LoadState.LuaCompiler;
+
 /**
  * Extension of {@link LuaFunction} which executes lua bytecode. 
  * <p>

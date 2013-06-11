@@ -19,6 +19,7 @@ package org.apache.bcel.util;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.bcel.classfile.JavaClass;
 
 /** 

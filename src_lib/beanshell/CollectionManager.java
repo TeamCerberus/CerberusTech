@@ -33,10 +33,10 @@
 
 package beanshell;
 
+import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
-import java.lang.reflect.Array;
 
 /**
 	The default CollectionManager

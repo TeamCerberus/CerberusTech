@@ -10,7 +10,7 @@ public class ComputerDefault {
 	"\tfor(int y = 0; y < 200; y++){\n"+
 	"\t\tfor(int x = 0; x < 200; x++){\n"+
 	"\t\t\tcomputer.setPixel(x, y, color.getRGB());\n"+
-	"\t\t\tcomputer.updateScreen();\n"+
+//	"\t\t\tcomputer.updateScreen();\n"+
 	"\t\t}\n"+
 	"\t}\n"+
 	"}\n"+
@@ -26,9 +26,11 @@ public class ComputerDefault {
 	"//--------> Run Point <--------\n"+
 	"System.out.println(\"Welcome to \"+getName()+\"(\"+getVersion()+\")\");\n"+
 	"fillScreen(Color.gray);\n"+
+	"computer.updateScreen();\n"+
 	"Thread.sleep(500);\n"+
 	"fillScreen(Color.black);\n"+
-	"computer.mountStaticJavaVariable(\"bios\", this);\n"+
+	"computer.updateScreen();\n"+
+	"computer.getCurrentInterpreter().setVariable(\"bios\", this);\n"+
 	"//computer.runFile(\"java\", \"rom\", \"os.cjava\");";
 	
 	public static void initComputerFolder(File computerFolder){

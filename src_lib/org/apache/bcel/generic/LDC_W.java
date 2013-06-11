@@ -17,6 +17,7 @@
 package org.apache.bcel.generic;
 
 import java.io.IOException;
+
 import org.apache.bcel.util.ByteSequence;
 
 /** 

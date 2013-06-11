@@ -18,6 +18,7 @@ package org.apache.bcel.util;
 
 import java.io.ByteArrayInputStream;
 import java.util.Hashtable;
+
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.ConstantClass;

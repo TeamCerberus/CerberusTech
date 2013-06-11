@@ -33,13 +33,9 @@
 
 package beanshell;
 
-import java.io.*;
-import java.util.*;
-import java.awt.*;
+import java.util.HashMap;
 
 import beanshell.BshClassPath.ClassSource;
-import beanshell.BshClassPath.DirClassSource;
-import beanshell.BshClassPath.GeneratedClassSource;
 
 /**
 	A classloader which can load one or more classes from specified sources.

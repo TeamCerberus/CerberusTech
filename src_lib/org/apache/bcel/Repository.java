@@ -17,6 +17,7 @@
 package org.apache.bcel;
 
 import java.io.IOException;
+
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.SyntheticRepository;

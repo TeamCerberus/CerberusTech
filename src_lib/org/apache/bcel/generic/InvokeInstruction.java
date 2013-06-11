@@ -17,6 +17,7 @@
 package org.apache.bcel.generic;
 
 import java.util.StringTokenizer;
+
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.Constant;
 import org.apache.bcel.classfile.ConstantPool;

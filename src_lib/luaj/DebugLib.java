@@ -21,6 +21,8 @@
 ******************************************************************************/
 package luaj;
 
+import luaj.LoadState.LuaCompiler;
+
 
 /** 
  * Subclass of {@link LibFunction} which implements the lua standard {@code debug} 

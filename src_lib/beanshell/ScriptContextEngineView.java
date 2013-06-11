@@ -1,6 +1,7 @@
 package beanshell;
 
-import javax.script.ScriptContext;
+import static javax.script.ScriptContext.ENGINE_SCOPE;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static javax.script.ScriptContext.ENGINE_SCOPE;
+import javax.script.ScriptContext;
 
 // 	Adopted from http://ikayzo.org/svn/beanshell/BeanShell/engine/src/bsh/engine/ScriptContextEngineView.java
 /**

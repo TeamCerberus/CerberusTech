@@ -34,9 +34,8 @@
 
 package beanshell;
 
-import java.lang.reflect.InvocationTargetException;
-
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 
 /**
 	TargetError is an EvalError that wraps an exception thrown by the script	

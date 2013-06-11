@@ -21,8 +21,6 @@
 ******************************************************************************/
 package luaj;
 
-import luaj.Varargs.ArrayPartVarargs;
-import luaj.Varargs.PairVarargs;
 
 /**
  * Subclass of {@link Varargs} that represents a lua tail call 

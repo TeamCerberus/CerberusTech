@@ -39,8 +39,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * All of the reflection API code lies here.  It is in the form of static

@@ -1,7 +1,7 @@
 package beanshell;
 
 // Just testing...
-import java.util.*;
+import java.util.Iterator;
 
 /**
 	 Implementation of the enhanced for(:) statement.  

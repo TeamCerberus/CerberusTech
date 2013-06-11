@@ -33,8 +33,8 @@
 
 package beanshell;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
 	This represents an instance of a bsh method declaration in a particular

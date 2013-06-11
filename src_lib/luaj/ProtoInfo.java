@@ -3,7 +3,6 @@ package luaj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Hashtable;
-import java.util.Vector;
 
 
 

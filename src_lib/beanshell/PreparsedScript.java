@@ -1,7 +1,8 @@
 package beanshell;
 
 
-import java.io.*;
+import java.io.PrintStream;
+import java.io.StringReader;
 import java.util.Map;
 
 /**

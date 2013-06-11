@@ -126,7 +126,7 @@ public class LuaScriptEngineFactory implements ScriptEngineFactory {
     public ScriptEngine getScriptEngine() {
     	ScriptEngine eng = engines.get();
     	if ( eng == null ) {
-    		eng = new LuaScriptEngine();
+//    		eng = new LuaScriptEngine();
 	        engines.set(eng);
     	}
 		return eng;

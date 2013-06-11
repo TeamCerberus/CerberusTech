@@ -17,6 +17,7 @@
 package org.apache.bcel.util;
 
 import java.util.LinkedList;
+
 import org.apache.bcel.classfile.JavaClass;
 
 /** 

@@ -21,6 +21,8 @@
  ******************************************************************************/
 package luaj;
 
+import luaj.DebugLib.debug;
+
 
 
 /** The {@link JsePlatform} class is a convenience class to standardize 
