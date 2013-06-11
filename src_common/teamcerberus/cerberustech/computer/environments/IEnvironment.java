@@ -1,6 +1,5 @@
 package teamcerberus.cerberustech.computer.environments;
 
-import java.io.File;
 import java.io.PrintStream;
 import java.io.Reader;
 
@@ -16,4 +15,8 @@ public interface IEnvironment {
 	public String getFileType();
 	
 	public void runFile(String path, Reader file, Computer computer);
+	
+	public IInterpreter createSubInterpreter();
+	
+	public IInterpreter getMasterInterpreter();
 }

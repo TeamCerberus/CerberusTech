@@ -111,4 +111,16 @@ public class LuaEnvironment implements IEnvironment {
 	public static String getFileName(String str) {
 		return stripFolder(stripExtension(str));
 	}
+
+	@Override
+	public IInterpreter createSubInterpreter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IInterpreter getMasterInterpreter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

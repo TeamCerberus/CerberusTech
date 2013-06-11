@@ -1,18 +1,18 @@
 package teamcerberus.cerberustech.computer.environments;
 
-import java.io.File;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.net.URL;
 
 import teamcerberus.cerberustech.computer.Computer;
-
 import beanshell.BshClassLoader;
 import beanshell.ClassManagerImpl;
 import beanshell.EvalError;
 import beanshell.Interpreter;
 
 public class JavaEnvironment implements IEnvironment {
+	private JavaInterpreter masterInterpreter;
+	
 	private Interpreter interpreter;
 	private JavaComputerInterface computerInterface;
 	
@@ -24,7 +24,7 @@ public class JavaEnvironment implements IEnvironment {
 	@Override
 	public void setup(int computerId, Computer computer) {
 		try{
-			computerInterface = new JavaComputerInterface(computer);
+//			computerInterface = new JavaComputerInterface(computer);
 			interpreter = new Interpreter();
 			interpreter.setClassLoader(new BshClassLoader(
 					new ClassManagerImpl(), new URL[] {}));
@@ -60,5 +60,17 @@ public class JavaEnvironment implements IEnvironment {
 		} catch (EvalError e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public IInterpreter createSubInterpreter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IInterpreter getMasterInterpreter() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
