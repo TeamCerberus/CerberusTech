@@ -1,5 +1,6 @@
 forge/
 tmp/
 *.jar
+!lib/jython-standalone-2.5.3.jar
 minecraftforge-*.zip
 minecraftforge-built.jar

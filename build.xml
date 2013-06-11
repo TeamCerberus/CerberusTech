@@ -155,6 +155,7 @@
                 <pathelement location="${mcp.jars}\bin\minecraft.jar" />
 				<pathelement location="${basedir}\jenkinslib\CerberusCore-universal-api.jar" />
 				<pathelement location="${basedir}\jenkinslib\CerberusPower-universal.jar" />
+				<pathelement location="${basedir}\lib\jython-standalone-2.5.3.jar" />
             </classpath>
             <src path="${temp.src}" />
         </javac>
@@ -164,6 +165,7 @@
         <unzip src="${forge.jar.built}" dest="${mcp.bin}" />
 		<unzip src="${basedir}\jenkinslib\CerberusCore-universal-api.jar" dest="${mcp.bin}" />
 		<unzip src="${basedir}\jenkinslib\CerberusPower-universal.jar" dest="${mcp.bin}" />
+		<unzip src="${basedir}\lib\jython-standalone-2.5.3.jar" dest="${basedir}\jython" />
         <echo message="Reobfuscating ${modname}." level="info" />
         <exec executable="${python.exe}" dir="${mcp.base}" failonerror="true">
             <arg value="${mcp.base}/runtime/reobfuscate.py" />
@@ -179,6 +181,8 @@
 			<fileset dir="${mcp.reobf}" includes="beanshell/*/**"/>
 			<fileset dir="${mcp.reobf}" includes="luaj/*"/>
 			<fileset dir="${mcp.reobf}" includes="luaj/*/**"/>
+			
+			<fileset dir="${basedir}\jython"/>
             
 			<fileset dir="${mod.src.common}">
                 <exclude name="mcmod.info"/>
