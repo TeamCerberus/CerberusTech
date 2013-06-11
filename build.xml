@@ -156,16 +156,20 @@
 				<pathelement location="${basedir}\jenkinslib\CerberusCore-universal-api.jar" />
 				<pathelement location="${basedir}\jenkinslib\CerberusPower-universal.jar" />
 				<pathelement location="${basedir}\lib\jython-standalone-2.5.3.jar" />
+				<pathelement location="${basedir}\lib\bsh-2.0b4.jar" />
             </classpath>
             <src path="${temp.src}" />
         </javac>
     </target>
 	
 	<target name="reobfuscate-jenkins" depends="build-jenkins">
+	    <echo message="Extracting libs" />
+        <delete dir="${${basedir}\libs-temp}" />
         <unzip src="${forge.jar.built}" dest="${mcp.bin}" />
 		<unzip src="${basedir}\jenkinslib\CerberusCore-universal-api.jar" dest="${mcp.bin}" />
 		<unzip src="${basedir}\jenkinslib\CerberusPower-universal.jar" dest="${mcp.bin}" />
-		<unzip src="${basedir}\lib\jython-standalone-2.5.3.jar" dest="${basedir}\jython" />
+		<unzip src="${basedir}\lib\jython-standalone-2.5.3.jar" dest="${basedir}\libs-temp" />
+		<unzip src="${basedir}\lib\bsh-2.0b4.jar" dest="${basedir}\libs-temp" />
         <echo message="Reobfuscating ${modname}." level="info" />
         <exec executable="${python.exe}" dir="${mcp.base}" failonerror="true">
             <arg value="${mcp.base}/runtime/reobfuscate.py" />
@@ -177,12 +181,10 @@
 			<fileset dir="${mcp.reobf}" includes="teamcerberus/cerberustech/*/**"/>
 			<fileset dir="${mcp.reobf}" includes="org/*"/>
 			<fileset dir="${mcp.reobf}" includes="org/*/**"/>
-			<fileset dir="${mcp.reobf}" includes="beanshell/*"/>
-			<fileset dir="${mcp.reobf}" includes="beanshell/*/**"/>
 			<fileset dir="${mcp.reobf}" includes="luaj/*"/>
 			<fileset dir="${mcp.reobf}" includes="luaj/*/**"/>
 			
-			<fileset dir="${basedir}\jython"/>
+			<fileset dir="${basedir}\libs-temp"/>
             
 			<fileset dir="${mod.src.common}">
                 <exclude name="mcmod.info"/>

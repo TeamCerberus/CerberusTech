@@ -10,9 +10,9 @@ import java.io.Serializable;
 import java.net.URL;
 
 import teamcerberus.cerberustech.computer.Computer;
-import beanshell.BshClassLoader;
-import beanshell.ClassManagerImpl;
-import beanshell.Interpreter;
+import bsh.Interpreter;
+import bsh.classpath.BshClassLoader;
+import bsh.classpath.ClassManagerImpl;
 
 public class JavaInterpreter implements IInterpreter, Serializable {
 	private static final long	serialVersionUID	= 7412745232976447886L;
