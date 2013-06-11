@@ -17,6 +17,7 @@ import teamcerberus.cerberustech.CerberusTech;
 import teamcerberus.cerberustech.computer.environments.IEnvironment;
 import teamcerberus.cerberustech.computer.environments.JavaEnvironment;
 import teamcerberus.cerberustech.computer.environments.LuaEnvironment;
+import teamcerberus.cerberustech.computer.environments.PythonEnvironment;
 
 public class Computer implements Runnable {
 	private HashMap<String, IEnvironment>		environments;
@@ -106,6 +107,7 @@ public class Computer implements Runnable {
 		environments = new HashMap<String, IEnvironment>();
 		addEnvironment(new JavaEnvironment());
 		addEnvironment(new LuaEnvironment());
+		addEnvironment(new PythonEnvironment());
 
 		for (Entry<String, IEnvironment> entry : environments.entrySet()) {
 			entry.getValue().setup(computerId, this);
