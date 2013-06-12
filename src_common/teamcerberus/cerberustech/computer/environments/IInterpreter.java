@@ -3,7 +3,7 @@ package teamcerberus.cerberustech.computer.environments;
 import java.io.Reader;
 
 public interface IInterpreter {
-	public IInterpreter deepClone();
+	public IInterpreter createSubInterpreter();
 	
 	public void executeFile(Reader reader) throws Exception;
 	
@@ -14,4 +14,6 @@ public interface IInterpreter {
 	public Object getVariable(String key) throws Exception;
 	
 	public void unsetVariable(String key) throws Exception;
+	
+	public String getFileType();
 }

@@ -60,7 +60,7 @@ public class PythonInterpreter implements IInterpreter, Serializable {
 		setVariable(key, null);
 	}
 	
-	public IInterpreter deepClone() {
+	public IInterpreter createSubInterpreter() {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -74,5 +74,10 @@ public class PythonInterpreter implements IInterpreter, Serializable {
 		} catch (ClassNotFoundException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public String getFileType() {
+		return ".cpython";
 	}
 }

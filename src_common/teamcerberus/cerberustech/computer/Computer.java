@@ -14,13 +14,14 @@ import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
 import teamcerberus.cerberustech.CerberusTech;
-import teamcerberus.cerberustech.computer.environments.IEnvironment;
-import teamcerberus.cerberustech.computer.environments.JavaEnvironment;
-import teamcerberus.cerberustech.computer.environments.LuaEnvironment;
-import teamcerberus.cerberustech.computer.environments.PythonEnvironment;
+import teamcerberus.cerberustech.computer.environments.Environment;
+import teamcerberus.cerberustech.computer.environments.JavaInterpreter;
+import teamcerberus.cerberustech.computer.environments.LuaInterpreter;
+import teamcerberus.cerberustech.computer.environments.PythonInterpreter;
+import teamcerberus.cerberustech.plugin.PluginRegistry;
 
 public class Computer implements Runnable {
-	private HashMap<String, IEnvironment>		environments;
+	private HashMap<String, Environment>		environments;
 	private File								computerFolder;
 	private File								cmosFolder;
 	private File								hhdFolder;
@@ -41,7 +42,8 @@ public class Computer implements Runnable {
 	@Override
 	public void run() {
 		try {
-			setupEnvironments();
+			environments = new HashMap<String, Environment>();
+			loadEnvironment(new Environment("java", new JavaInterpreter(this)));
 			runFile("rom", "bios.cjava");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,9 +51,20 @@ public class Computer implements Runnable {
 		monitorPixels = new int[200][200];
 		syncMonitor();
 	}
-
-	public void runFile(String pos, String file) throws Exception{
-		getEnvironmentForFile(file).getMasterInterpreter().executeFile(getFileFromPos(pos, file));
+	
+	public void loadExtraEnvironments(){
+		try {
+			loadEnvironment(new Environment("lua", new LuaInterpreter(this)));
+			loadEnvironment(new Environment("python", new PythonInterpreter(this)));
+			PluginRegistry.loadEnvironments(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void runFile(String pos, String file) throws Exception {
+		getEnvironmentForFile(file).getMasterInterpreter().executeFile(
+				getFileFromPos(pos, file));
 	}
 
 	public Reader getFileFromJar(String file)
@@ -103,30 +116,19 @@ public class Computer implements Runnable {
 		ComputerDefault.initComputerFolder(computerFolder);
 	}
 
-	public void setupEnvironments() {
-		environments = new HashMap<String, IEnvironment>();
-		addEnvironment(new JavaEnvironment());
-		addEnvironment(new LuaEnvironment());
-		addEnvironment(new PythonEnvironment());
-
-		for (Entry<String, IEnvironment> entry : environments.entrySet()) {
-			entry.getValue().setup(computerId, this);
-		}
-	}
-
-	public IEnvironment getEnvironment(String enviroment) {
+	public Environment getEnvironment(String enviroment) {
 		return environments.get(enviroment);
 	}
 
-	public void addEnvironment(IEnvironment environment) {
+	public void loadEnvironment(Environment environment) {
 		environments.put(environment.getName(), environment);
 	}
 
-	public IEnvironment getEnvironmentForFile(String file) {
+	public Environment getEnvironmentForFile(String file) {
 		String ext = "";
 		int pos = file.lastIndexOf(".");
 		if (pos != -1) ext = file.substring(pos, file.length());
-		for (Entry<String, IEnvironment> entry : environments.entrySet()) {
+		for (Entry<String, Environment> entry : environments.entrySet()) {
 			if (entry.getValue().getFileType().equals(ext)) return entry
 					.getValue();
 		}

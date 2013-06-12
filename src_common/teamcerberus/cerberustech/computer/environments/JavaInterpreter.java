@@ -58,7 +58,7 @@ public class JavaInterpreter implements IInterpreter, Serializable {
 		return computer;
 	}
 	
-	public IInterpreter deepClone() {
+	public IInterpreter createSubInterpreter() {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -72,5 +72,10 @@ public class JavaInterpreter implements IInterpreter, Serializable {
 		} catch (ClassNotFoundException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public String getFileType() {
+		return ".cjava";
 	}
 }

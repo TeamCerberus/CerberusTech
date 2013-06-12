@@ -30,7 +30,7 @@ public class JavaComputerInterface {
 		return reader;
 	}
 	
-	public IEnvironment getEnvironment(String name){
+	public Environment getEnvironment(String name){
 		return javaInterpreter.getComputer().getEnvironment(name);
 	}
 	
@@ -38,4 +38,7 @@ public class JavaComputerInterface {
 		return javaInterpreter;
 	}
 	
+	public void loadExtraEnvironments(){
+		javaInterpreter.getComputer().loadExtraEnvironments();
+	}
 }
