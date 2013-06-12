@@ -135,7 +135,7 @@
         <unzip src="${forge.jar.built}" dest="${mcp.bin}">
             <patternset><exclude name="MANIFEST.MF" /></patternset>
         </unzip>
-		<unzip src="${basedir}\lib\luaj-jse-3.0-alpha2.jar dest="${mcp.bin}">
+		<unzip src="${basedir}\lib\luaj-jse-3.0-alpha2.jar" dest="${mcp.bin}">
             <patternset><exclude name="MANIFEST.MF" /></patternset>
         </unzip>
         <javac  encoding="UTF-8" compiler="modern" source="1.6" target="1.6" deprecation="false"
