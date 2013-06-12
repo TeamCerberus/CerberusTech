@@ -24,10 +24,10 @@ public class BlockComputer extends BlockContainer {
 		super(id, Material.rock);
 		setUnlocalizedName(type.simpleName);
 		this.type = type;
-		this.setCreativeTab(CerberusTech.creativeTab);
-		this.setHardness(1.0F);
-		this.setResistance(1.0F);
-		this.setStepSound(soundStoneFootstep);
+		setCreativeTab(CerberusTech.creativeTab);
+		setHardness(1.0F);
+		setResistance(1.0F);
+		setStepSound(soundStoneFootstep);
 	}
 
 	@Override
@@ -39,55 +39,64 @@ public class BlockComputer extends BlockContainer {
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4,
 			EntityLiving par5EntityLiving, ItemStack par6ItemStack) {
 		int yaw = MathHelper
-				.floor_double((double) (par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+				.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-		if (yaw == 0) // zneg
+		if (yaw == 0) {
 			par1World.setBlockMetadataWithNotify(par2, par3, par4, 2, 2);
+		}
 
-		if (yaw == 1) // xpos
+		if (yaw == 1) {
 			par1World.setBlockMetadataWithNotify(par2, par3, par4, 5, 2);
+		}
 
-		if (yaw == 2) // zpos
+		if (yaw == 2) {
 			par1World.setBlockMetadataWithNotify(par2, par3, par4, 3, 2);
+		}
 
-		if (yaw == 3) // xneg
+		if (yaw == 3) {
 			par1World.setBlockMetadataWithNotify(par2, par3, par4, 4, 2);
+		}
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Icon getIcon(int side, int meta) {//side - meta
-		return icons[side == meta ? 0 : (side == 0 || side == 1) ? 2 : 1];
+	public Icon getIcon(int side, int meta) {// side - meta
+		return icons[side == meta ? 0 : side == 0 || side == 1 ? 2 : 1];
 	}
-	
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		icons = new Icon[3];
-		icons[0] = par1IconRegister.registerIcon(CerberusTech.id+":"+type.simpleName+"_front");
-		icons[1] = par1IconRegister.registerIcon(CerberusTech.id+":"+type.simpleName+"_side");
-		icons[2] = par1IconRegister.registerIcon(CerberusTech.id+":"+type.simpleName+"_other");
+		icons[0] = par1IconRegister.registerIcon(CerberusTech.id + ":"
+				+ type.simpleName + "_front");
+		icons[1] = par1IconRegister.registerIcon(CerberusTech.id + ":"
+				+ type.simpleName + "_side");
+		icons[2] = par1IconRegister.registerIcon(CerberusTech.id + ":"
+				+ type.simpleName + "_other");
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int unused, float unused2, float unused3, float unused4) {
-		if (player.isSneaking()) 
-			return false;
-		if(world.isRemote)
-			return true;
+	public boolean onBlockActivated(World world, int x, int y, int z,
+			EntityPlayer player, int unused, float unused2, float unused3,
+			float unused4) {
+		if (player.isSneaking()) { return false; }
+		if (world.isRemote) { return true; }
 		TileEntity computer = world.getBlockTileEntity(x, y, z);
-		if(computer != null){
+		if (computer != null) {
 			player.openGui(CerberusTech.instance, 1, world, x, y, z);
 		}
 		return true;
 	}
-	
+
 	@Override
-	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6) {
-		TileEntityComputer computer = ((TileEntityComputer)par1World.getBlockTileEntity(par2, par3, par4));
-		if(computer != null)
+	public void breakBlock(World par1World, int par2, int par3, int par4,
+			int par5, int par6) {
+		TileEntityComputer computer = (TileEntityComputer) par1World
+				.getBlockTileEntity(par2, par3, par4);
+		if (computer != null) {
 			computer.blockDestroy();
+		}
 		super.breakBlock(par1World, par2, par3, par4, par5, par6);
 	}
 }

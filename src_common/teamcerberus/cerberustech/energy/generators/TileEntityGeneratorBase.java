@@ -9,21 +9,22 @@ import teamcerberus.cerberuspower.prefab.TileEntityProducer;
 import teamcerberus.cerberuspower.util.ElectricityDirection;
 
 public class TileEntityGeneratorBase extends TileEntityProducer {
-	
-	private GeneratorType type;
-	private Random rand;
-	private ElectricityNetwork energyNet;
-	private int internalBuffer;
-	public int tick;
-	
+
+	private GeneratorType		type;
+	private Random				rand;
+	private ElectricityNetwork	energyNet;
+	private int					internalBuffer;
+	public int					tick;
+
 	public TileEntityGeneratorBase(GeneratorType type) {
 		this.type = type;
-		this.energyNet = ElectricityRegistry.getInstance().getInstanceForWorld(worldObj);
+		energyNet = ElectricityRegistry.getInstance().getInstanceForWorld(
+				worldObj);
 		energyNet.addTileEntity(this);
 		rand = new Random();
 		tick = rand.nextInt(64);
 	}
-	
+
 	@Override
 	public boolean emitsEnergyTo(TileEntity paramTileEntity,
 			ElectricityDirection paramDirection) {
@@ -34,7 +35,7 @@ public class TileEntityGeneratorBase extends TileEntityProducer {
 	public int getElectricityOutputLimit() {
 		return type.getOutput();
 	}
-	
+
 	public void generateEnergy(int amount) {
 		int emitted = energyNet.produceElectricity(this, amount);
 		if (amount - emitted != 0) {
@@ -45,30 +46,28 @@ public class TileEntityGeneratorBase extends TileEntityProducer {
 			energyNet.produceElectricity(this, removeFromBuffer(leftovers));
 		}
 	}
-	
+
 	public int addToBuffer(int amount) {
-		if (this.internalBuffer + amount <= this.type.getInternalBuffer()) {
-			this.internalBuffer += amount;
+		if (internalBuffer + amount <= type.getInternalBuffer()) {
+			internalBuffer += amount;
 			return 0;
-		}
-		else {
-			int leftovers = this.internalBuffer + amount - type.getInternalBuffer();
+		} else {
+			int leftovers = internalBuffer + amount - type.getInternalBuffer();
 			return leftovers;
 		}
 	}
-	
+
 	public int removeFromBuffer(int amount) {
-		if (this.internalBuffer - amount >= 0) {
-			this.internalBuffer -= amount;
+		if (internalBuffer - amount >= 0) {
+			internalBuffer -= amount;
 			return amount;
-		}
-		else {
-			int leftovers = this.internalBuffer;
-			this.internalBuffer = 0;
+		} else {
+			int leftovers = internalBuffer;
+			internalBuffer = 0;
 			return leftovers;
 		}
 	}
-	
+
 	@Override
 	public void invalidate() {
 		energyNet.removeTileEntity(this);

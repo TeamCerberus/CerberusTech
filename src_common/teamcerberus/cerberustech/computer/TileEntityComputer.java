@@ -34,10 +34,12 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 
 	@Override
 	public void startComputer() {
-		if(running)
+		if (running) {
 			return;
-		else{
-			if (id == -1) id = ComputerIdGenerator.getNextID();
+		} else {
+			if (id == -1) {
+				id = ComputerIdGenerator.getNextID();
+			}
 			running = true;
 			computer = new Computer(id, this);
 			thread = new Thread(computer);
@@ -48,9 +50,9 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	@SuppressWarnings("deprecation")
 	@Override
 	public void stopComputer() {
-		if(!running)
+		if (!running) {
 			return;
-		else{
+		} else {
 			try {
 				running = false;
 				thread.interrupt();
@@ -100,22 +102,27 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 
 	private static int[] convertToOneDim(int ints[][]) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		for (int i = 0; i < ints.length; i++)
-			for (int j = 0; j < ints[i].length; j++)
-				list.add(ints[i][j]);
+		for (int[] k : ints) {
+			for (int j = 0; j < k.length; j++) {
+				list.add(k[j]);
+			}
+		}
 
 		int result[] = new int[list.size()];
-		for (int i = 0; i < list.size(); i++)
+		for (int i = 0; i < list.size(); i++) {
 			result[i] = list.get(i);
+		}
 		return result;
 	}
 
 	private static int[][] convertFromOneDim(int ints[], int numberOfRows,
 			int rowSize) {
 		int returnArray[][] = new int[numberOfRows][rowSize];
-		for (int i = 0; i < numberOfRows; i++)
-			for (int j = 0; j < rowSize; j++)
-				returnArray[i][j] = ints[(i * rowSize) + j];
+		for (int i = 0; i < numberOfRows; i++) {
+			for (int j = 0; j < rowSize; j++) {
+				returnArray[i][j] = ints[i * rowSize + j];
+			}
+		}
 		return returnArray;
 	}
 
@@ -171,7 +178,9 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		ComputerItemStacks[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
+			itemstack.stackSize = getInventoryStackLimit();
+		}
 	}
 
 	@Override
@@ -186,16 +195,15 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
-		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
-				this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(
-				(double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D,
-				(double) this.zCoord + 0.5D) <= 64.0D;
+		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false
+				: par1EntityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D,
+						zCoord + 0.5D) <= 64.0D;
 	}
 
 	public boolean canInteractWith(EntityPlayer entityplayer) {
 		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this) { return false; }
-		return entityplayer.getDistanceSq((double) xCoord + 0.5D,
-				(double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D,
+				zCoord + 0.5D) <= 64D;
 	}
 
 	@Override
@@ -206,9 +214,9 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int par1) {
-		if (this.ComputerItemStacks[par1] != null) {
-			ItemStack var2 = this.ComputerItemStacks[par1];
-			this.ComputerItemStacks[par1] = null;
+		if (ComputerItemStacks[par1] != null) {
+			ItemStack var2 = ComputerItemStacks[par1];
+			ComputerItemStacks[par1] = null;
 			return var2;
 		} else {
 			return null;

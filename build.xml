@@ -45,7 +45,6 @@
         <copy todir="${temp.src}" failonerror="false">
 			<fileset dir="${mod.src.common}" />
 			<fileset dir="${mod.src.client}" />
-			<fileset dir="${mod.src.lib}" />
         </copy>
         <replace dir="${temp.src}" token="@VERSION@" value="${version}" />
         <replace dir="${temp.src}" token="@BUILD_NUMBER@" value="${build_number.build_number}" />
@@ -61,8 +60,7 @@
         <property name="mod.base" location="${basedir}" />
         <property name="mod.src.common" location="${mod.base}/src_common" />
 		<property name="mod.src.client" location="${mod.base}/src_client" />
-		<property name="mod.src.lib" location="${mod.base}/src_lib" />
-        <property name="mod.bin" location="${mod.base}/bin" />
+		<property name="mod.bin" location="${mod.base}/bin" />
 
         <property name="temp.dir" location= "${mod.base}/tmp" />
         <property name="temp.src" location= "${temp.dir}/src" />
@@ -157,6 +155,7 @@
 				<pathelement location="${basedir}\jenkinslib\CerberusPower-universal.jar" />
 				<pathelement location="${basedir}\lib\jython-standalone-2.5.3.jar" />
 				<pathelement location="${basedir}\lib\bsh-2.0b4.jar" />
+				<pathelement location="${basedir}\lib\luaj-jse-3.0-alpha2.jar" />
             </classpath>
             <src path="${temp.src}" />
         </javac>
@@ -170,6 +169,7 @@
 		<unzip src="${basedir}\jenkinslib\CerberusPower-universal.jar" dest="${mcp.bin}" />
 		<unzip src="${basedir}\lib\jython-standalone-2.5.3.jar" dest="${basedir}\libs-temp" />
 		<unzip src="${basedir}\lib\bsh-2.0b4.jar" dest="${basedir}\libs-temp" />
+		<unzip src="${basedir}\lib\luaj-jse-3.0-alpha2.jar" dest="${basedir}\libs-temp" />
         <echo message="Reobfuscating ${modname}." level="info" />
         <exec executable="${python.exe}" dir="${mcp.base}" failonerror="true">
             <arg value="${mcp.base}/runtime/reobfuscate.py" />
@@ -179,10 +179,6 @@
         <jar destfile="${mod.jar.release}">
             <fileset dir="${mcp.reobf}" includes="teamcerberus/cerberustech/*"/>
 			<fileset dir="${mcp.reobf}" includes="teamcerberus/cerberustech/*/**"/>
-			<fileset dir="${mcp.reobf}" includes="org/*"/>
-			<fileset dir="${mcp.reobf}" includes="org/*/**"/>
-			<fileset dir="${mcp.reobf}" includes="luaj/*"/>
-			<fileset dir="${mcp.reobf}" includes="luaj/*/**"/>
 			
 			<fileset dir="${basedir}\libs-temp"/>
             
@@ -192,11 +188,6 @@
                 <exclude name="com/" />
             </fileset>
 			<fileset dir="${mod.src.client}">
-                <exclude name="mcmod.info"/>
-                <exclude name="**/*.java"/>
-                <exclude name="com/" />
-            </fileset>
-			<fileset dir="${mod.src.lib}">
                 <exclude name="mcmod.info"/>
                 <exclude name="**/*.java"/>
                 <exclude name="com/" />

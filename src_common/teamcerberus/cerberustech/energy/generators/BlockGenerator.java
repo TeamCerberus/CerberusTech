@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class BlockGenerator extends BlockContainer {
-	
+
 	public BlockGenerator(int id) {
 		super(id, Material.iron);
 	}
@@ -15,7 +15,7 @@ public class BlockGenerator extends BlockContainer {
 	public TileEntity createNewTileEntity(World world) {
 		return null;
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(World world, int meta) {
 		return GeneratorType.values()[meta].createTileEntity();

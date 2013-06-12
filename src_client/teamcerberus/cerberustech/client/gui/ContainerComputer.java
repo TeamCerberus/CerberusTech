@@ -7,18 +7,19 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import teamcerberus.cerberustech.computer.TileEntityComputer;
 
-public class ContainerComputer extends Container{
-	public TileEntityComputer computer;
-	
-	public ContainerComputer(InventoryPlayer inventoryplayer, TileEntityComputer computer){
+public class ContainerComputer extends Container {
+	public TileEntityComputer	computer;
+
+	public ContainerComputer(InventoryPlayer inventoryplayer,
+			TileEntityComputer computer) {
 		this.computer = computer;
 	}
-	
+
 	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer){
+	public boolean canInteractWith(EntityPlayer entityplayer) {
 		return computer.canInteractWith(entityplayer);
 	}
-    
+
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slot) {
 		ItemStack stack = null;
@@ -27,16 +28,17 @@ public class ContainerComputer extends Container{
 		if (slotObject != null && slotObject.getHasStack()) {
 			ItemStack stackInSlot = slotObject.getStack();
 			stack = stackInSlot.copy();
-			if (slot == 0)
-				if (!mergeItemStack(stackInSlot, 1, inventorySlots.size(), true))
+			if (slot == 0) {
+				if (!mergeItemStack(stackInSlot, 1, inventorySlots.size(), true)) {
 					return null;
-			else if (!mergeItemStack(stackInSlot, 0, 1, false))
-				return null;
-			
-			if (stackInSlot.stackSize == 0)
+				} else if (!mergeItemStack(stackInSlot, 0, 1, false)) { return null; }
+			}
+
+			if (stackInSlot.stackSize == 0) {
 				slotObject.putStack(null);
-			else
+			} else {
 				slotObject.onSlotChanged();
+			}
 		}
 
 		return stack;

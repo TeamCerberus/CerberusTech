@@ -15,8 +15,7 @@ public class CommonProxy {
 	}
 
 	public void commonConfig(Configuration config) {
-		
-		
+
 		CTBlocks.config(config);
 		CTItems.config(config);
 	}

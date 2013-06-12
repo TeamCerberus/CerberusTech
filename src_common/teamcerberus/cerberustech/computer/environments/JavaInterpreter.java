@@ -15,11 +15,11 @@ import bsh.classpath.BshClassLoader;
 import bsh.classpath.ClassManagerImpl;
 
 public class JavaInterpreter implements IInterpreter, Serializable {
-	private static final long	serialVersionUID	= 7412745232976447886L;
-	private Interpreter	beanshellInterpreter;
-	private Computer computer;
-	private JavaComputerInterface computerInterface;
-	
+	private static final long		serialVersionUID	= 7412745232976447886L;
+	private Interpreter				beanshellInterpreter;
+	private Computer				computer;
+	private JavaComputerInterface	computerInterface;
+
 	public JavaInterpreter(Computer computer) throws Exception {
 		this.computer = computer;
 		beanshellInterpreter = new Interpreter();
@@ -35,29 +35,30 @@ public class JavaInterpreter implements IInterpreter, Serializable {
 	}
 
 	@Override
-	public void executeBlock(String block) throws Exception{
+	public void executeBlock(String block) throws Exception {
 		beanshellInterpreter.eval(block);
 	}
 
 	@Override
-	public void setVariable(String key, Object value) throws Exception{
+	public void setVariable(String key, Object value) throws Exception {
 		beanshellInterpreter.set(key, value);
 	}
 
 	@Override
-	public Object getVariable(String key) throws Exception{
+	public Object getVariable(String key) throws Exception {
 		return beanshellInterpreter.get(key);
 	}
 
 	@Override
-	public void unsetVariable(String key) throws Exception{
+	public void unsetVariable(String key) throws Exception {
 		beanshellInterpreter.unset(key);
 	}
-	
-	public Computer getComputer(){
+
+	public Computer getComputer() {
 		return computer;
 	}
-	
+
+	@Override
 	public IInterpreter createSubInterpreter() {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();

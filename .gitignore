@@ -3,5 +3,6 @@ tmp/
 *.jar
 !lib/jython-standalone-2.5.3.jar
 !lib/bsh-2.0b4.jar
+!lib/luaj-jse-3.0-alpha2.jar
 minecraftforge-*.zip
 minecraftforge-built.jar

@@ -35,7 +35,7 @@ public class ComputerIdGenerator {
 		try {
 			FileWriter fstream = new FileWriter(getSaveFile());
 			BufferedWriter out = new BufferedWriter(fstream);
-			out.write(""+id);
+			out.write("" + id);
 			out.close();
 		} catch (Exception e) {
 			System.err.println("Write Error: " + e.getMessage());

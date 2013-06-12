@@ -11,17 +11,16 @@ import java.io.Serializable;
 
 import teamcerberus.cerberustech.computer.Computer;
 
-
 public class PythonInterpreter implements IInterpreter, Serializable {
-	private static final long	serialVersionUID	= -8346828344749539308L;
-	private org.python.util.PythonInterpreter jythonInterpreter;
-	
-	public PythonInterpreter(Computer computer) throws Exception{
+	private static final long					serialVersionUID	= -8346828344749539308L;
+	private org.python.util.PythonInterpreter	jythonInterpreter;
+
+	public PythonInterpreter(Computer computer) throws Exception {
 		jythonInterpreter = new org.python.util.PythonInterpreter();
-		
+
 		setVariable("computer", new PythonComputerInterface());
 	}
-	
+
 	@Override
 	public void executeFile(Reader reader) throws Exception {
 		String programText = null;
@@ -37,7 +36,7 @@ public class PythonInterpreter implements IInterpreter, Serializable {
 		}
 		programText = fileText.toString();
 		executeBlock(programText);
-		
+
 	}
 
 	@Override
@@ -59,7 +58,8 @@ public class PythonInterpreter implements IInterpreter, Serializable {
 	public void unsetVariable(String key) throws Exception {
 		setVariable(key, null);
 	}
-	
+
+	@Override
 	public IInterpreter createSubInterpreter() {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();

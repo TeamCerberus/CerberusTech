@@ -51,17 +51,18 @@ public class Computer implements Runnable {
 		monitorPixels = new int[200][200];
 		syncMonitor();
 	}
-	
-	public void loadExtraEnvironments(){
+
+	public void loadExtraEnvironments() {
 		try {
 			loadEnvironment(new Environment("lua", new LuaInterpreter(this)));
-			loadEnvironment(new Environment("python", new PythonInterpreter(this)));
+			loadEnvironment(new Environment("python", new PythonInterpreter(
+					this)));
 			PluginRegistry.loadEnvironments(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void runFile(String pos, String file) throws Exception {
 		getEnvironmentForFile(file).getMasterInterpreter().executeFile(
 				getFileFromPos(pos, file));
@@ -90,10 +91,15 @@ public class Computer implements Runnable {
 	public Reader getFileFromPos(String pos, String file)
 			throws FileNotFoundException {
 		Reader reader = null;
-		if (pos.toLowerCase().equals("rom")) reader = getFileFromROM(file);
-		else if (pos.toLowerCase().equals("cmos")) reader = getFileFromCMOS(file);
-		else if (pos.toLowerCase().equals("hhd")) reader = getFileFromHHD(file);
-		else throw new FileNotFoundException("Computer pos not found!");
+		if (pos.toLowerCase().equals("rom")) {
+			reader = getFileFromROM(file);
+		} else if (pos.toLowerCase().equals("cmos")) {
+			reader = getFileFromCMOS(file);
+		} else if (pos.toLowerCase().equals("hhd")) {
+			reader = getFileFromHHD(file);
+		} else {
+			throw new FileNotFoundException("Computer pos not found!");
+		}
 		return reader;
 	}
 
@@ -106,7 +112,7 @@ public class Computer implements Runnable {
 	}
 
 	public void updateSaveFolder() {
-		if (computerId == -1) return;
+		if (computerId == -1) { return; }
 		computerFolder = new File(CerberusTech.getWorldFolder(), "computers/"
 				+ computerId);
 		cmosFolder = new File(computerFolder, "cmos");
@@ -127,10 +133,12 @@ public class Computer implements Runnable {
 	public Environment getEnvironmentForFile(String file) {
 		String ext = "";
 		int pos = file.lastIndexOf(".");
-		if (pos != -1) ext = file.substring(pos, file.length());
+		if (pos != -1) {
+			ext = file.substring(pos, file.length());
+		}
 		for (Entry<String, Environment> entry : environments.entrySet()) {
-			if (entry.getValue().getFileType().equals(ext)) return entry
-					.getValue();
+			if (entry.getValue().getFileType().equals(ext)) { return entry
+					.getValue(); }
 		}
 		return null;
 	}

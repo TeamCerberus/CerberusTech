@@ -22,65 +22,85 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
 public class ServerPacketHandler implements IPacketHandler {
-	
-	public static void sendPacket(Packet250CustomPayload packet, ByteArrayOutputStream outbytes){
+
+	public static void sendPacket(Packet250CustomPayload packet,
+			ByteArrayOutputStream outbytes) {
 		byte[] bytes = outbytes.toByteArray();
-		outbytes = null; //Flags as garbage, this will auto be cleaned out of memory;
+		outbytes = null; // Flags as garbage, this will auto be cleaned out of
+							// memory;
 		packet.channel = CerberusTech.network;
 		packet.data = bytes;
 		packet.length = packet.data.length;
 		PacketDispatcher.sendPacketToAllPlayers(packet);
 	}
-	
-	public static void sendPacketToPlayer(String user, Packet250CustomPayload packet, ByteArrayOutputStream outbytes){
+
+	public static void sendPacketToPlayer(String user,
+			Packet250CustomPayload packet, ByteArrayOutputStream outbytes) {
 		byte[] bytes = outbytes.toByteArray();
 		packet.channel = CerberusTech.network;
 		packet.data = bytes;
 		packet.length = packet.data.length;
-		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-		PacketDispatcher.sendPacketToPlayer(packet, (Player) server.getConfigurationManager().getPlayerForUsername(user));
+		MinecraftServer server = FMLCommonHandler.instance()
+				.getMinecraftServerInstance();
+		PacketDispatcher.sendPacketToPlayer(packet, (Player) server
+				.getConfigurationManager().getPlayerForUsername(user));
 	}
-	
-	public static void writeChannelData(DataOutputStream dos, Channels channel) throws Exception{
+
+	public static void writeChannelData(DataOutputStream dos, Channels channel)
+			throws Exception {
 		dos.writeInt(channel.id);
 		dos.writeInt(channel.sub);
 	}
-	
-	public static void writePlayerData(DataOutputStream dos, EntityPlayer player) throws Exception{
+
+	public static void writePlayerData(DataOutputStream dos, EntityPlayer player)
+			throws Exception {
 		dos.writeUTF(player.username);
 	}
-	
-	public static void writeSenderData(DataOutputStream dos, Senders sender) throws Exception{
+
+	public static void writeSenderData(DataOutputStream dos, Senders sender)
+			throws Exception {
 		dos.writeInt(sender.id);
 	}
-	
+
 	@Override
-	public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player1){
-		try{
+	public void onPacketData(INetworkManager manager,
+			Packet250CustomPayload packet, Player player1) {
+		try {
 			ByteArrayDataInput dat = ByteStreams.newDataInput(packet.data);
-			Channels channel = Channels.channels.get(dat.readInt()+"-"+dat.readInt());
+			Channels channel = Channels.channels.get(dat.readInt() + "-"
+					+ dat.readInt());
 			Senders sender = Senders.senders.get(dat.readInt());
-			if(sender == Senders.client){
-				if(channel.equals(Channels.computer_keyboardEvent)){
-					World world = MinecraftServer.getServer().getConfigurationManager().getServerInstance().worldServerForDimension(dat.readInt());
-					TileEntityComputer pc = ((TileEntityComputer)world.getBlockTileEntity(dat.readInt(), dat.readInt(), dat.readInt()));
-					pc.keyboardEvent(OSKeyboardEvents.getEventFromID(dat.readInt()), OSKeyboardLetters.getFromID(dat.readInt()));
+			if (sender == Senders.client) {
+				if (channel.equals(Channels.computer_keyboardEvent)) {
+					World world = MinecraftServer.getServer()
+							.getConfigurationManager().getServerInstance()
+							.worldServerForDimension(dat.readInt());
+					TileEntityComputer pc = (TileEntityComputer) world
+							.getBlockTileEntity(dat.readInt(), dat.readInt(),
+									dat.readInt());
+					pc.keyboardEvent(
+							OSKeyboardEvents.getEventFromID(dat.readInt()),
+							OSKeyboardLetters.getFromID(dat.readInt()));
 				}
-				if(channel.equals(Channels.computer_powerEvent)){
-					World world = MinecraftServer.getServer().getConfigurationManager().getServerInstance().worldServerForDimension(dat.readInt());
-					TileEntityComputer pc = ((TileEntityComputer)world.getBlockTileEntity(dat.readInt(), dat.readInt(), dat.readInt()));
+				if (channel.equals(Channels.computer_powerEvent)) {
+					World world = MinecraftServer.getServer()
+							.getConfigurationManager().getServerInstance()
+							.worldServerForDimension(dat.readInt());
+					TileEntityComputer pc = (TileEntityComputer) world
+							.getBlockTileEntity(dat.readInt(), dat.readInt(),
+									dat.readInt());
 					int id = dat.readInt();
-					switch(id){
-					case 0:
-						pc.startComputer();
-						break;
-					case 1:
-						pc.stopComputer();
-						break;
+					switch (id) {
+						case 0:
+							pc.startComputer();
+							break;
+						case 1:
+							pc.stopComputer();
+							break;
 					}
 				}
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -20,18 +20,28 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid = CerberusTech.id, name = CerberusTech.id, version = CerberusTech.version, dependencies = "required-after:CerberusPower")
-@NetworkMod(clientSideRequired = true, serverSideRequired = false, clientPacketHandlerSpec = @SidedPacketHandler(channels = { CerberusTech.network }, packetHandler = ClientPacketHandler.class), serverPacketHandlerSpec = @SidedPacketHandler(channels = { CerberusTech.network }, packetHandler = ServerPacketHandler.class))
+@Mod(modid = CerberusTech.id, name = CerberusTech.id,
+		version = CerberusTech.version,
+		dependencies = "required-after:CerberusPower")
+@NetworkMod(clientSideRequired = true, serverSideRequired = false,
+		clientPacketHandlerSpec = @SidedPacketHandler(
+				channels = { CerberusTech.network },
+				packetHandler = ClientPacketHandler.class),
+		serverPacketHandlerSpec = @SidedPacketHandler(
+				channels = { CerberusTech.network },
+				packetHandler = ServerPacketHandler.class))
 public class CerberusTech {
-	public final static String id = "CerberusTech";
-	public final static String network = "CerberusTech";
-	public final static String version = "@VERSION@";
+	public final static String	id			= "CerberusTech";
+	public final static String	network		= "CerberusTech";
+	public final static String	version		= "@VERSION@";
 
 	@Instance(value = id)
-	public static CerberusTech instance;
-	@SidedProxy(clientSide = "teamcerberus.cerberustech.client.network.ClientProxy", serverSide = "teamcerberus.cerberustech.network.CommonProxy")
-	public static CommonProxy proxy;
-	public static CreativeTabs creativeTab = CreativeTabs.tabRedstone;
+	public static CerberusTech	instance;
+	@SidedProxy(
+			clientSide = "teamcerberus.cerberustech.client.network.ClientProxy",
+			serverSide = "teamcerberus.cerberustech.network.CommonProxy")
+	public static CommonProxy	proxy;
+	public static CreativeTabs	creativeTab	= CreativeTabs.tabRedstone;
 
 	@PreInit
 	public void preinit(FMLPreInitializationEvent e) {
