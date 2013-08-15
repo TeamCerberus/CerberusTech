@@ -18,18 +18,22 @@ import teamcerberus.cerberustech.computer.environments.Environment;
 import teamcerberus.cerberustech.computer.environments.JavaInterpreter;
 import teamcerberus.cerberustech.computer.environments.LuaInterpreter;
 import teamcerberus.cerberustech.computer.environments.PythonInterpreter;
+import teamcerberus.cerberustech.computer.event.EventKeyPush;
+import teamcerberus.cerberustech.computer.event.EventKeyRelease;
 import teamcerberus.cerberustech.plugin.PluginRegistry;
 
 public class Computer implements Runnable {
-	private HashMap<String, Environment>		environments;
-	private File								computerFolder;
-	private File								cmosFolder;
-	private File								hhdFolder;
-	private File								romFolder;
-	private int									computerId;
-	private int[][]								monitorPixels;
-	private IComputerTE							te;
-	private LinkedList<ComputerEventListener>	eventListeners;
+	private HashMap<String, Environment> environments;
+	private File computerFolder;
+	private File cmosFolder;
+	private File hhdFolder;
+	private File romFolder;
+	private int computerId;
+	private int[][] monitorPixels;
+	private IComputerTE te;
+	private LinkedList<ComputerEventListener> eventListeners;
+	private int[] redstoneOutput;
+	private int[] redstoneInput;
 
 	public Computer(int computerId, IComputerTE te) {
 		this.computerId = computerId;
@@ -37,7 +41,10 @@ public class Computer implements Runnable {
 		eventListeners = new LinkedList<ComputerEventListener>();
 		clearMonitor();
 		updateSaveFolder();
+		redstoneOutput = new int[LocalDirection.values().length];
+		redstoneInput = new int[LocalDirection.values().length];
 	}
+	
 
 	@Override
 	public void run() {
@@ -112,7 +119,9 @@ public class Computer implements Runnable {
 	}
 
 	public void updateSaveFolder() {
-		if (computerId == -1) { return; }
+		if (computerId == -1) {
+			return;
+		}
 		computerFolder = new File(CerberusTech.getWorldFolder(), "computers/"
 				+ computerId);
 		cmosFolder = new File(computerFolder, "cmos");
@@ -137,8 +146,9 @@ public class Computer implements Runnable {
 			ext = file.substring(pos, file.length());
 		}
 		for (Entry<String, Environment> entry : environments.entrySet()) {
-			if (entry.getValue().getFileType().equals(ext)) { return entry
-					.getValue(); }
+			if (entry.getValue().getFileType().equals(ext)) {
+				return entry.getValue();
+			}
 		}
 		return null;
 	}
@@ -150,7 +160,7 @@ public class Computer implements Runnable {
 	public void keyboardEvent(OSKeyboardEvents eventFromID,
 			OSKeyboardLetters fromID) {
 		for (ComputerEventListener list : eventListeners) {
-			list.keyboardEvent(eventFromID, fromID);
+			list.handleEvent(eventFromID == OSKeyboardEvents.KeyPushed ? new EventKeyPush(fromID) : new EventKeyRelease(fromID));
 		}
 	}
 
@@ -164,5 +174,33 @@ public class Computer implements Runnable {
 
 	public void setPixel(int x, int y, int color) {
 		monitorPixels[x][y] = color;
+	}
+
+	public int getRedstoneOutput(LocalDirection side) {
+		return redstoneOutput[side.id];
+	}
+
+	public void setRedstoneOutput(LocalDirection side, int value) {
+		redstoneOutput[side.id] = value;
+		te.notifyNeighbors();
+	}
+
+	public int getRedstoneInput(LocalDirection side) {
+		return redstoneInput[side.id];
+	}
+
+	public void pollRedstoneInputs() {
+		int meta = te.getSideFacing();
+		pollRedstoneInputSide(0, meta, 0, 1, 0, 1);
+		pollRedstoneInputSide(1, meta, 0, -1, 0, 0);
+		pollRedstoneInputSide(2, meta, 0, 0, 1, 3);
+		pollRedstoneInputSide(3, meta, 0, 0, -1, 2);
+		pollRedstoneInputSide(4, meta, 1, 0, 0, 5);
+		pollRedstoneInputSide(5, meta, -1, 0, 0, 4);
+	}
+	
+	public void pollRedstoneInputSide(int ws, int meta, int x, int y, int z, int os) {
+		LocalDirection dir = LocalDirection.convertWorldSide(ws, meta);
+		redstoneInput[dir.id] = te.isBlockProvidingPowerOnSide(x, y, z, os);
 	}
 }

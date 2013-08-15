@@ -6,11 +6,13 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import teamcerberus.cerberustech.CerberusTech;
 import teamcerberus.cerberustech.client.network.ClientPacketHandler;
 import teamcerberus.cerberustech.computer.OSKeyboardEvents;
 import teamcerberus.cerberustech.computer.OSKeyboardLetters;
@@ -68,9 +70,10 @@ public class GuiComputer extends GuiContainer {
 		} catch (Exception e) {}
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine
-				.bindTexture("/mods/CerberusTech/textures/guis/monitor.png");
-
+//		mc.renderEngine
+//				.bindTexture("/mods/CerberusTech/textures/guis/monitor.png");
+		mc.func_110434_K().func_110577_a(new ResourceLocation(CerberusTech.id+":textures/guis/monitor.png"));
+		
 		int xSize = 222;
 		int ySize = 222;
 		int j = (width - xSize) / 2;

@@ -24,9 +24,7 @@ public class ComputerDefault {
 				BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 				writer.write(defaultFile);
 				writer.close();
-				System.out.println("File Created: " + file);
 			} catch (Exception e) {
-				System.out.println("File Creation Failed: " + file);
 			}
 		}
 	}

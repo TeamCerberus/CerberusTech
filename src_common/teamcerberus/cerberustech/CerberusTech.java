@@ -10,9 +10,9 @@ import teamcerberus.cerberustech.client.network.GuiHandler;
 import teamcerberus.cerberustech.network.CommonProxy;
 import teamcerberus.cerberustech.network.ServerPacketHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -31,8 +31,8 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 				channels = { CerberusTech.network },
 				packetHandler = ServerPacketHandler.class))
 public class CerberusTech {
-	public final static String	id			= "CerberusTech";
-	public final static String	network		= "CerberusTech";
+	public final static String	id			= "cerberustech";
+	public final static String	network		= "cerberustech";
 	public final static String	version		= "@VERSION@";
 
 	@Instance(value = id)
@@ -43,7 +43,7 @@ public class CerberusTech {
 	public static CommonProxy	proxy;
 	public static CreativeTabs	creativeTab	= CreativeTabs.tabRedstone;
 
-	@PreInit
+	@EventHandler
 	public void preinit(FMLPreInitializationEvent e) {
 		Configuration config = new Configuration(
 				e.getSuggestedConfigurationFile());
@@ -52,7 +52,7 @@ public class CerberusTech {
 		config.save();
 	}
 
-	@Init
+	@EventHandler
 	public void init(FMLInitializationEvent e) {
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		proxy.commonSetup();

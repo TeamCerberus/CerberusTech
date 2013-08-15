@@ -25,8 +25,7 @@ public class ComputerIdGenerator {
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			id = Integer.parseInt(br.readLine());
 			in.close();
-		} catch (Exception e) {// Catch exception if any
-			System.err.println("Read Error: " + e.getMessage());
+		} catch (Exception e) {
 		}
 		return id;
 	}
@@ -38,7 +37,6 @@ public class ComputerIdGenerator {
 			out.write("" + id);
 			out.close();
 		} catch (Exception e) {
-			System.err.println("Write Error: " + e.getMessage());
 		}
 	}
 

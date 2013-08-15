@@ -3,6 +3,10 @@ package teamcerberus.cerberustech.computer.environments;
 import java.io.FileNotFoundException;
 import java.io.Reader;
 
+import teamcerberus.cerberustech.computer.ComputerEventListener;
+import teamcerberus.cerberustech.computer.LocalDirection;
+import teamcerberus.cerberustech.computer.event.ComputerEvent;
+
 public class JavaComputerInterface {
 	private JavaInterpreter	javaInterpreter;
 
@@ -43,4 +47,25 @@ public class JavaComputerInterface {
 	public void loadExtraEnvironments() {
 		javaInterpreter.getComputer().loadExtraEnvironments();
 	}
+	
+	public void setRedstoneOutput(LocalDirection side, int value){
+		javaInterpreter.getComputer().setRedstoneOutput(side, value);
+	}
+	
+	public int getRedstoneInput(LocalDirection side){
+		return javaInterpreter.getComputer().getRedstoneInput(side);
+	}
+	
+	public void pollRedstoneInputs(){
+		javaInterpreter.getComputer().pollRedstoneInputs();
+	}
+	
+	public void addEventListener(ComputerEventListener listener){
+		javaInterpreter.getComputer().addEventListener(listener);
+	}
+	
+	public void removeEventListener(ComputerEventListener listener){
+		javaInterpreter.getComputer().removeEventListener(listener);
+	}
+	
 }

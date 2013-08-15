@@ -1,6 +1,6 @@
 package teamcerberus.cerberustech.client.network;
 
-import teamcerberus.cerberuscore.multiblock.MultiblockManager;
+import teamcerberus.cerberuscore.microblock.MultiblockManager;
 import teamcerberus.cerberuscore.render.CerbRenderManager;
 import teamcerberus.cerberustech.network.CommonProxy;
 

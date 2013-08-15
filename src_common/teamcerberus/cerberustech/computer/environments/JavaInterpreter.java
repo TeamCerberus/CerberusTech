@@ -26,7 +26,7 @@ public class JavaInterpreter implements IInterpreter, Serializable {
 		beanshellInterpreter.setClassLoader(new BshClassLoader(
 				new ClassManagerImpl(), new URL[] {}));
 		computerInterface = new JavaComputerInterface(this);
-		beanshellInterpreter.set("computer", computerInterface);
+		setVariable("computer", computerInterface);
 	}
 
 	@Override

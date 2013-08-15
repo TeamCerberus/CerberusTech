@@ -4,21 +4,25 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import teamcerberus.cerberuscore.util.CerberusLogger;
 import teamcerberus.cerberustech.CerberusTech;
 import teamcerberus.cerberustech.computer.ComputerType;
+import teamcerberus.cerberustech.computer.LocalDirection;
 import teamcerberus.cerberustech.computer.TileEntityComputer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockComputer extends BlockContainer {
-	public ComputerType	type;
-	public Icon[]		icons;
+	public ComputerType type;
+	public Icon[] icons;
 
 	public BlockComputer(int id, ComputerType type) {
 		super(id, Material.rock);
@@ -34,10 +38,10 @@ public class BlockComputer extends BlockContainer {
 	public TileEntity createNewTileEntity(World world) {
 		return type.makeTileEntity();
 	}
-
+	
 	@Override
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4,
-			EntityLiving par5EntityLiving, ItemStack par6ItemStack) {
+			EntityLivingBase par5EntityLiving, ItemStack par6ItemStack) {
 		int yaw = MathHelper
 				.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
@@ -80,8 +84,12 @@ public class BlockComputer extends BlockContainer {
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int unused, float unused2, float unused3,
 			float unused4) {
-		if (player.isSneaking()) { return false; }
-		if (world.isRemote) { return true; }
+		if (player.isSneaking()) {
+			return false;
+		}
+		if (world.isRemote) {
+			return true;
+		}
 		TileEntity computer = world.getBlockTileEntity(x, y, z);
 		if (computer != null) {
 			player.openGui(CerberusTech.instance, 1, world, x, y, z);
@@ -98,5 +106,61 @@ public class BlockComputer extends BlockContainer {
 			computer.blockDestroy();
 		}
 		super.breakBlock(par1World, par2, par3, par4, par5, par6);
+		notifyNeighbors(par1World, par2, par3, par4);
 	}
+
+	// public boolean canProvidePower() {
+	// return true;
+	// }
+
+	@Override
+	public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z,
+			int side) {
+		return side != -1;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+
+	@Override
+	public boolean isBlockNormalCube(World world, int x, int y, int z) {
+		return false;
+	}
+
+	public int isProvidingWeakPower(IBlockAccess iblockaccess, int i, int j,
+			int k, int l) {
+		TileEntityComputer computer = (TileEntityComputer) iblockaccess
+				.getBlockTileEntity(i, j, k);
+		return computer.getRedstoneOutput(LocalDirection.convertWorldSide(l,
+				iblockaccess.getBlockMetadata(i, j, k)));
+	}
+
+	public int isProvidingStrongPower(IBlockAccess world, int i, int j, int k,
+			int l) {
+		return isProvidingWeakPower(world, i, j, k, l);
+	}
+
+	public void onBlockAdded(World par1World, int par2, int par3, int par4) {
+		super.onBlockAdded(par1World, par2, par3, par4);
+		notifyNeighbors(par1World, par2, par3, par4);
+	}
+
+	public void notifyNeighbors(World par1World, int par2, int par3, int par4) {
+		
+		par1World.notifyBlocksOfNeighborChange(par2, par3 - 1, par4,
+				this.blockID);
+		par1World.notifyBlocksOfNeighborChange(par2, par3 + 1, par4,
+				this.blockID);
+		par1World.notifyBlocksOfNeighborChange(par2 - 1, par3, par4,
+				this.blockID);
+		par1World.notifyBlocksOfNeighborChange(par2 + 1, par3, par4,
+				this.blockID);
+		par1World.notifyBlocksOfNeighborChange(par2, par3, par4 - 1,
+				this.blockID);
+		par1World.notifyBlocksOfNeighborChange(par2, par3, par4 + 1,
+				this.blockID);
+	}
+
 }

@@ -48,7 +48,6 @@ public class ClientPacketHandler implements IPacketHandler {
 
 			sendPacket(new Packet250CustomPayload(), bos);
 		} catch (Exception e) {
-			System.out.println("Unknown Key Error: " + event + "  " + letter);
 		}
 	}
 
@@ -68,7 +67,9 @@ public class ClientPacketHandler implements IPacketHandler {
 			dos.writeInt(event);
 
 			sendPacket(new Packet250CustomPayload(), bos);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void writeChannelData(DataOutputStream dos, Channels channel)

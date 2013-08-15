@@ -1,9 +1,11 @@
 package teamcerberus.cerberustech.computer;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -15,11 +17,11 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityComputer extends TileEntity implements IInventory,
 		IComputerTE {
-	public int[][]		clientPixels;
-	private Computer	computer;
-	private int			id;
-	private Thread		thread;
-	public boolean		running;
+	public int[][] clientPixels;
+	private Computer computer;
+	private int id;
+	private Thread thread;
+	public boolean running;
 
 	public TileEntityComputer() {
 		clientPixels = new int[200][200];
@@ -29,6 +31,7 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 
 	@Override
 	public void sendPacket() {
+		notifyNeighbors();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
@@ -40,9 +43,15 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 			if (id == -1) {
 				id = ComputerIdGenerator.getNextID();
 			}
+			notifyNeighbors();
 			running = true;
 			computer = new Computer(id, this);
 			thread = new Thread(computer);
+			thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+				@Override
+				public void uncaughtException(Thread arg0, Throwable arg1) {
+				}
+			});
 			thread.start();
 		}
 	}
@@ -55,9 +64,12 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 		} else {
 			try {
 				running = false;
+				notifyNeighbors();
 				thread.interrupt();
 				thread.stop();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
+			sendPacket();
 		}
 	}
 
@@ -67,6 +79,7 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 
 	public void keyboardEvent(OSKeyboardEvents eventFromID,
 			OSKeyboardLetters fromID) {
+		if(running)
 		computer.keyboardEvent(eventFromID, fromID);
 	}
 
@@ -88,7 +101,7 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 		com.setByteArray(
 				"pixels",
 				convertToByteArray(convertToOneDim(running ? computer
-						.getMonitorPixels() : clientPixels)));
+						.getMonitorPixels() : new int[200][200])));
 		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, com);
 	}
 
@@ -145,7 +158,7 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	}
 
 	/* ----> INV Stuff <---- */
-	private ItemStack	ComputerItemStacks[];
+	private ItemStack ComputerItemStacks[];
 
 	@Override
 	public int getSizeInventory() {
@@ -201,16 +214,20 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	}
 
 	public boolean canInteractWith(EntityPlayer entityplayer) {
-		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this) { return false; }
+		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this) {
+			return false;
+		}
 		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D,
 				zCoord + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openChest() {}
+	public void openChest() {
+	}
 
 	@Override
-	public void closeChest() {}
+	public void closeChest() {
+	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int par1) {
@@ -229,7 +246,40 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return true;
+	}
+
+	public int getRedstoneOutput(LocalDirection side) {
+		if (running)
+			return computer.getRedstoneOutput(side);
+		return 0;
+	}
+
+	@Override
+	public void notifyNeighbors() {
+		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord,
+				worldObj.getBlockId(xCoord, yCoord, zCoord));
+	}
+
+	public int isBlockProvidingPowerOnSide(int i1, int j1, int k1, int l) {
+		int i = xCoord + i1;
+		int j = yCoord + j1;
+		int k = zCoord + k1;
+		if ((j >= 0) && (j < worldObj.getHeight())) {
+			return Math
+					.max(Math.max(
+							worldObj.getBlockId(i, j, k) == Block.redstoneWire.blockID ? worldObj
+									.getBlockMetadata(i, j, k) : 0, worldObj
+									.getIndirectPowerLevelTo(i, j, k, l)),
+									worldObj.isBlockProvidingPowerTo(i, j, k, l));
+		}
+
+		return 0;
+	}
+
+	@Override
+	public int getSideFacing() {
+		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 	}
 }
