@@ -201,6 +201,7 @@ public class Computer implements Runnable {
 	
 	public void pollRedstoneInputSide(int ws, int meta, int x, int y, int z, int os) {
 		LocalDirection dir = LocalDirection.convertWorldSide(ws, meta);
-		redstoneInput[dir.id] = te.isBlockProvidingPowerOnSide(x, y, z, os);
+//		redstoneInput[dir.id] = te.isBlockProvidingPowerOnSide(x, y, z, os);
+		redstoneInput[dir.id] = 0;
 	}
 }

@@ -10,7 +10,5 @@ public interface IComputerTE {
 
 	public void notifyNeighbors();
 	
-	public int isBlockProvidingPowerOnSide(int i, int j, int k, int l);
-	
 	public int getSideFacing();
 }

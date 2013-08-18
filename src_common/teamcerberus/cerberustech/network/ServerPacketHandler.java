@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import teamcerberus.cerberustech.CerberusTech;
 import teamcerberus.cerberustech.computer.OSKeyboardEvents;
 import teamcerberus.cerberustech.computer.OSKeyboardLetters;
-import teamcerberus.cerberustech.computer.TileEntityComputer;
+import teamcerberus.cerberustech.computer.TileEntityComputerCore;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -75,7 +75,7 @@ public class ServerPacketHandler implements IPacketHandler {
 					World world = MinecraftServer.getServer()
 							.getConfigurationManager().getServerInstance()
 							.worldServerForDimension(dat.readInt());
-					TileEntityComputer pc = (TileEntityComputer) world
+					TileEntityComputerCore pc = (TileEntityComputerCore) world
 							.getBlockTileEntity(dat.readInt(), dat.readInt(),
 									dat.readInt());
 					pc.keyboardEvent(
@@ -86,7 +86,7 @@ public class ServerPacketHandler implements IPacketHandler {
 					World world = MinecraftServer.getServer()
 							.getConfigurationManager().getServerInstance()
 							.worldServerForDimension(dat.readInt());
-					TileEntityComputer pc = (TileEntityComputer) world
+					TileEntityComputerCore pc = (TileEntityComputerCore) world
 							.getBlockTileEntity(dat.readInt(), dat.readInt(),
 									dat.readInt());
 					int id = dat.readInt();

@@ -16,14 +16,14 @@ import teamcerberus.cerberustech.CerberusTech;
 import teamcerberus.cerberustech.client.network.ClientPacketHandler;
 import teamcerberus.cerberustech.computer.OSKeyboardEvents;
 import teamcerberus.cerberustech.computer.OSKeyboardLetters;
-import teamcerberus.cerberustech.computer.TileEntityComputer;
+import teamcerberus.cerberustech.computer.TileEntityComputerCore;
 
-public class GuiComputer extends GuiContainer {
-	public TileEntityComputer	computer;
+public class GuiComputerMonitor extends GuiContainer {
+	public TileEntityComputerCore	computer;
 
-	public GuiComputer(InventoryPlayer inventoryplayer,
-			TileEntityComputer computer) {
-		super(new ContainerComputer(inventoryplayer, computer));
+	public GuiComputerMonitor(InventoryPlayer inventoryplayer,
+			TileEntityComputerCore computer) {
+		super(new ContainerFake());
 		this.computer = computer;
 	}
 
@@ -64,7 +64,7 @@ public class GuiComputer extends GuiContainer {
 			int var3) {
 
 		try {
-			computer = (TileEntityComputer) computer.worldObj
+			computer = (TileEntityComputerCore) computer.worldObj
 					.getBlockTileEntity(computer.xCoord, computer.yCoord,
 							computer.zCoord);
 		} catch (Exception e) {}

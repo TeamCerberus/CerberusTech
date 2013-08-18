@@ -15,7 +15,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityComputer extends TileEntity implements IInventory,
+public class TileEntityComputerCore extends TileEntity implements IInventory,
 		IComputerTE {
 	public int[][] clientPixels;
 	private Computer computer;
@@ -23,7 +23,7 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 	private Thread thread;
 	public boolean running;
 
-	public TileEntityComputer() {
+	public TileEntityComputerCore() {
 		clientPixels = new int[200][200];
 		running = false;
 		id = -1;
@@ -41,7 +41,7 @@ public class TileEntityComputer extends TileEntity implements IInventory,
 			return;
 		} else {
 			if (id == -1) {
-				id = ComputerIdGenerator.getNextID();
+				id = IDGenerator.getNextID("CTComputer");
 			}
 			notifyNeighbors();
 			running = true;

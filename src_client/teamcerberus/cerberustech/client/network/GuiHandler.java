@@ -3,15 +3,14 @@ package teamcerberus.cerberustech.client.network;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import teamcerberus.cerberustech.client.gui.ContainerComputer;
-import teamcerberus.cerberustech.client.gui.GuiComputer;
-import teamcerberus.cerberustech.computer.TileEntityComputer;
+import teamcerberus.cerberustech.client.gui.ContainerFake;
+import teamcerberus.cerberustech.client.gui.GuiComputerCore;
+import teamcerberus.cerberustech.computer.TileEntityComputerCore;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
 	/*
-	 * Gui Mapping:
-	 * 1 - computer
+	 * Gui Mapping: 1 - computer
 	 */
 
 	@Override
@@ -19,8 +18,9 @@ public class GuiHandler implements IGuiHandler {
 			int x, int y, int z) {
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
 
-		if (ID == 1) { return new ContainerComputer(player.inventory,
-				(TileEntityComputer) entity); }
+		if (ID == 1) {
+			return new ContainerFake();
+		}
 
 		return null;
 	}
@@ -30,8 +30,10 @@ public class GuiHandler implements IGuiHandler {
 			int x, int y, int z) {
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
 
-		if (ID == 1) { return new GuiComputer(player.inventory,
-				(TileEntityComputer) entity); }
+		if (ID == 1) {
+			return new GuiComputerCore(player.inventory,
+					(TileEntityComputerCore) entity);
+		}
 
 		return null;
 	}
